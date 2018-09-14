@@ -1,2 +1,1 @@
-import "./human.spec";
-import "./people.spec";
+import "./Logby.spec";
