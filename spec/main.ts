@@ -1,1 +1,3 @@
-import "./Logby.spec";
+import "./Logger.spec";
+
+import "./Logby.IT.spec";

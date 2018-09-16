@@ -28,7 +28,7 @@ class Logger implements ILogger {
      * @param level Level of the log.
      * @param args arguments to be logged.
      */
-    log(level: ILevel, ...args: any[]) {
+    log(level: ILevel, args: any[]) {
         if (this.root.level.val >= level.val) {
             this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
         }

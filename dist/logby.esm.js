@@ -46,6 +46,29 @@ const Level = {
  */
 
 /**
+ * Checks if a value is undefined or null.
+ *
+ * @function isNil
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @returns {boolean}
+ * @example
+ * isNil(null)
+ * // => true
+ *
+ * isNil(undefined)
+ * // => true
+ *
+ * isNil(0)
+ * // => false
+ *
+ * isNil("")
+ * // => false
+ */
+const isNil = (val) => val == null;
+
+/**
  * Checks if the value has a certain type-string.
  *
  * @function isTypeOf
@@ -79,6 +102,29 @@ const isTypeOf = (val, type) => typeof val === type;
  * // => false
  */
 const isString = (val) => isTypeOf(val, "string");
+
+/**
+ * Checks if a value is an object.
+ *
+ * @function isObject
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @returns {boolean}
+ * @example
+ * isObject({})
+ * // => true
+ *
+ * isObject([])
+ * // => true
+ *
+ * isObject(() => 1))
+ * // => true
+ *
+ * isObject(1)
+ * // => false
+ */
+const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
 
 /**
  * Logger class.
@@ -148,7 +194,7 @@ class Logger {
     }
 }
 
-const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name} - ${args[0]}`, ...args.slice(1));
+const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 
 /**
  * Logger-root class.
@@ -172,7 +218,7 @@ class Logby {
      */
     getLogger(nameable) {
         let name;
-        if ("name" in nameable) {
+        if (isObject(nameable) && "name" in nameable) {
             name = nameable.name;
         }
         else if (isString(nameable)) {
