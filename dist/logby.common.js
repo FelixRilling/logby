@@ -2,6 +2,7 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+// noinspection TsLint
 /**
  * Default level-list.
  */
@@ -130,12 +131,14 @@ const isString = (val) => isTypeOf(val, "string");
  */
 const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
 
+const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+
 /**
- * Logger class.
+ * Default {@link ILogger} class.
  */
-class Logger {
+class DefaultLogger {
     /**
-     * Creates a new {@link Logger}.
+     * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}
      *
      * @param root Root logger of this logger.
@@ -151,7 +154,7 @@ class Logger {
      * @param level Level of the log.
      * @param args arguments to be logged.
      */
-    log(level, args) {
+    log(level, ...args) {
         if (this.root.level.val >= level.val) {
             this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
         }
@@ -162,7 +165,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     error(...args) {
-        this.log(Level.ERROR, args);
+        this.log(Level.ERROR, ...args);
     }
     /**
      * Logs a warning.
@@ -170,7 +173,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     warn(...args) {
-        this.log(Level.WARN, args);
+        this.log(Level.WARN, ...args);
     }
     /**
      * Logs an info.
@@ -178,7 +181,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     info(...args) {
-        this.log(Level.INFO, args);
+        this.log(Level.INFO, ...args);
     }
     /**
      * Logs a debug message.
@@ -186,7 +189,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     debug(...args) {
-        this.log(Level.DEBUG, args);
+        this.log(Level.DEBUG, ...args);
     }
     /**
      * Logs a trace message.
@@ -194,14 +197,12 @@ class Logger {
      * @param args arguments to be logged.
      */
     trace(...args) {
-        this.log(Level.TRACE, args);
+        this.log(Level.TRACE, ...args);
     }
 }
 
-const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
-
 /**
- * Logger-root class.
+ * DefaultLogger-root class.
  */
 class Logby {
     /**
@@ -218,7 +219,7 @@ class Logby {
      * Get a logger instance.
      *
      * @param nameable A string or an INameable (ex: class, function).
-     * @returns The Logger instance.
+     * @returns The DefaultLogger instance.
      */
     getLogger(nameable) {
         let name;
@@ -234,7 +235,7 @@ class Logby {
         if (this.loggerMap.has(name)) {
             return this.loggerMap.get(name);
         }
-        const logger = new Logger(this, name);
+        const logger = new DefaultLogger(this, name);
         this.loggerMap.set(name, logger);
         return logger;
     }

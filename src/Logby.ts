@@ -1,14 +1,14 @@
 import { isObject, isString } from "lightdash";
-import { appenderFn } from "./appender/appenderFn";
-import { ILevel } from "./level/ILevel";
-import { ILogger } from "./logger/ILogger";
-import { Level } from "./level/Level";
-import { Logger } from "./logger/Logger";
-import { defaultAppenderFn } from "./appender/defaultAppenderFn";
 import { ITypedObject } from "lightdash/types/obj/lib/ITypedObject";
+import { appenderFn } from "./appender/appenderFn";
+import { defaultAppenderFn } from "./appender/defaultAppenderFn";
+import { ILevel } from "./level/ILevel";
+import { Level } from "./level/Level";
+import { DefaultLogger } from "./logger/DefaultLogger";
+import { ILogger } from "./logger/ILogger";
 
 /**
- * Logger-root class.
+ * DefaultLogger-root class.
  */
 class Logby {
     public level: ILevel;
@@ -30,7 +30,7 @@ class Logby {
      * Get a logger instance.
      *
      * @param nameable A string or an INameable (ex: class, function).
-     * @returns The Logger instance.
+     * @returns The DefaultLogger instance.
      */
     public getLogger(nameable: any): ILogger {
         let name: string;
@@ -49,7 +49,7 @@ class Logby {
             return this.loggerMap.get(name)!;
         }
 
-        const logger = new Logger(this, name);
+        const logger = new DefaultLogger(this, name);
         this.loggerMap.set(name, logger);
 
         return logger;

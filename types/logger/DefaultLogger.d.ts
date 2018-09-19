@@ -2,13 +2,13 @@ import { ILevel } from "../level/ILevel";
 import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
 /**
- * Logger class.
+ * Default {@link ILogger} class.
  */
-declare class Logger implements ILogger {
+declare class DefaultLogger implements ILogger {
     private readonly root;
     private readonly name;
     /**
-     * Creates a new {@link Logger}.
+     * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}
      *
      * @param root Root logger of this logger.
@@ -53,4 +53,4 @@ declare class Logger implements ILogger {
      */
     trace(...args: any[]): void;
 }
-export { Logger };
+export { DefaultLogger };

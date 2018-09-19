@@ -9,10 +9,16 @@ describe("Logby IT", () => {
 
         const logger = loggerRoot.getLogger("Test");
 
-        logger.trace("Foo", 0, [1, 2, 3]);
-        logger.debug("Foo", 0, [1, 2, 3]);
-        logger.info("Foo", 0, [1, 2, 3]);
-        logger.warn("Foo", 0, [1, 2, 3]);
-        logger.error("Foo", 0, [1, 2, 3]);
+        const exampleBoolean = true;
+        const exampleNumber = 123;
+        const exampleString = "Foo";
+        const exampleArr = [1, 2, 3];
+        const exampleObj = { a: 1 };
+
+        logger.trace(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.debug(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.info(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.warn(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.error(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
     });
 });

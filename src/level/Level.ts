@@ -1,5 +1,6 @@
 import { ILevelList } from "./ILevelList";
 
+// noinspection TsLint
 /**
  * Default level-list.
  */

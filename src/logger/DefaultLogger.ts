@@ -4,14 +4,14 @@ import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
 
 /**
- * Logger class.
+ * Default {@link ILogger} class.
  */
-class Logger implements ILogger {
+class DefaultLogger implements ILogger {
     private readonly root: Logby;
     private readonly name: string;
 
     /**
-     * Creates a new {@link Logger}.
+     * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}
      *
      * @param root Root logger of this logger.
@@ -28,7 +28,7 @@ class Logger implements ILogger {
      * @param level Level of the log.
      * @param args arguments to be logged.
      */
-    public log(level: ILevel, args: any[]) {
+    public log(level: ILevel, ...args: any[]) {
         if (this.root.level.val >= level.val) {
             this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
         }
@@ -40,7 +40,7 @@ class Logger implements ILogger {
      * @param args arguments to be logged.
      */
     public error(...args: any[]) {
-        this.log(Level.ERROR, args);
+        this.log(Level.ERROR, ...args);
     }
 
     /**
@@ -49,7 +49,7 @@ class Logger implements ILogger {
      * @param args arguments to be logged.
      */
     public warn(...args: any[]) {
-        this.log(Level.WARN, args);
+        this.log(Level.WARN, ...args);
     }
 
     /**
@@ -58,7 +58,7 @@ class Logger implements ILogger {
      * @param args arguments to be logged.
      */
     public info(...args: any[]) {
-        this.log(Level.INFO, args);
+        this.log(Level.INFO, ...args);
     }
 
     /**
@@ -67,7 +67,7 @@ class Logger implements ILogger {
      * @param args arguments to be logged.
      */
     public debug(...args: any[]) {
-        this.log(Level.DEBUG, args);
+        this.log(Level.DEBUG, ...args);
     }
 
     /**
@@ -76,8 +76,8 @@ class Logger implements ILogger {
      * @param args arguments to be logged.
      */
     public trace(...args: any[]) {
-        this.log(Level.TRACE, args);
+        this.log(Level.TRACE, ...args);
     }
 }
 
-export { Logger };
+export { DefaultLogger };

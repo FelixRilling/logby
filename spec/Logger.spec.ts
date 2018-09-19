@@ -1,6 +1,6 @@
 import { Logby } from "../src/Logby";
 
-describe("Logger", () => {
+describe("DefaultLogger", () => {
     it("constructs", () => {
         const loggerRoot = new Logby();
 
