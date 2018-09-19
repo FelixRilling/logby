@@ -13,14 +13,13 @@ npm install logby
 ## Usage
 
 ```ts
-import { Logby } from "logby";
-import { Levels } from "logby/level/Levels";
+import { Logby, Levels } from "logby";
 
 const loggerRoot = new Logby();
 
 class Foo {
 
-  private static final logger: ILogger = loggerRoot.getLogger(Foo);
+  private static final logger = loggerRoot.getLogger(Foo);
 
   constructor(){
     logger.info("Hello World!");
