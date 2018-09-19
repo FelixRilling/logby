@@ -150,7 +150,7 @@ var logby = (function (exports) {
          * @param level Level of the log.
          * @param args arguments to be logged.
          */
-        log(level, ...args) {
+        log(level, args) {
             if (this.root.level.val >= level.val) {
                 this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
             }

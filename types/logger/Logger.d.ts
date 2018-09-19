@@ -21,7 +21,7 @@ declare class Logger implements ILogger {
      * @param level Level of the log.
      * @param args arguments to be logged.
      */
-    log(level: ILevel, ...args: any[]): void;
+    log(level: ILevel, args: any[]): void;
     /**
      * Logs an error.
      *
