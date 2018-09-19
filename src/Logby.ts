@@ -3,7 +3,7 @@ import { ITypedObject } from "lightdash/types/obj/lib/ITypedObject";
 import { appenderFn } from "./appender/appenderFn";
 import { defaultAppenderFn } from "./appender/defaultAppenderFn";
 import { ILevel } from "./level/ILevel";
-import { Level } from "./level/Level";
+import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
 
@@ -19,9 +19,9 @@ class Logby {
     /**
      * Creates a new logger module.
      *
-     * @param level Level of this logger-root loggers.
+     * @param level Levels of this logger-root loggers.
      */
-    constructor(level: ILevel = Level.INFO) {
+    constructor(level: ILevel = Levels.INFO) {
         this.level = level;
         this.appenderQueue = [defaultAppenderFn];
     }

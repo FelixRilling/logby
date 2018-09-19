@@ -25,7 +25,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li></ul></li><li><a href="Logger.html">Logger</a><ul class='methods'><li data-type='method'><a href="Logger.html#debug">debug</a></li><li data-type='method'><a href="Logger.html#error">error</a></li><li data-type='method'><a href="Logger.html#info">info</a></li><li data-type='method'><a href="Logger.html#log">log</a></li><li data-type='method'><a href="Logger.html#trace">trace</a></li><li data-type='method'><a href="Logger.html#warn">warn</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#Level">Level</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="DefaultLogger.html">DefaultLogger</a><ul class='methods'><li data-type='method'><a href="DefaultLogger.html#debug">debug</a></li><li data-type='method'><a href="DefaultLogger.html#error">error</a></li><li data-type='method'><a href="DefaultLogger.html#info">info</a></li><li data-type='method'><a href="DefaultLogger.html#log">log</a></li><li data-type='method'><a href="DefaultLogger.html#trace">trace</a></li><li data-type='method'><a href="DefaultLogger.html#warn">warn</a></li></ul></li><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#Level">Level</a></li></ul>
 </nav>
 
 <div id="main">
@@ -40,7 +40,8 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>// noinspection TsLint
+/**
  * Default level-list.
  */
 const Level = {
@@ -48,24 +49,24 @@ const Level = {
         val: -1
     },
     ERROR: {
-        val: 0,
-        name: "ERROR"
+        name: "ERROR",
+        val: 0
     },
     WARN: {
-        val: 1,
-        name: "WARN"
+        name: "WARN",
+        val: 1
     },
     INFO: {
-        val: 2,
-        name: "INFO"
+        name: "INFO",
+        val: 2
     },
     DEBUG: {
-        val: 3,
-        name: "DEBUG"
+        name: "DEBUG",
+        val: 3
     },
     TRACE: {
-        val: 4,
-        name: "TRACE"
+        name: "TRACE",
+        val: 4
     }
 };
 
@@ -106,6 +107,29 @@ const Level = {
 const isTypeOf = (val, type) => typeof val === type;
 
 /**
+ * Checks if a value is undefined or null.
+ *
+ * @function isNil
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @returns {boolean}
+ * @example
+ * isNil(null)
+ * // => true
+ *
+ * isNil(undefined)
+ * // => true
+ *
+ * isNil(0)
+ * // => false
+ *
+ * isNil("")
+ * // => false
+ */
+const isNil = (val) => val == null;
+
+/**
  * Checks if a value is a string.
  *
  * @function isString
@@ -123,11 +147,36 @@ const isTypeOf = (val, type) => typeof val === type;
 const isString = (val) => isTypeOf(val, "string");
 
 /**
- * Logger class.
+ * Checks if a value is an object.
+ *
+ * @function isObject
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @returns {boolean}
+ * @example
+ * isObject({})
+ * // => true
+ *
+ * isObject([])
+ * // => true
+ *
+ * isObject(() => 1))
+ * // => true
+ *
+ * isObject(1)
+ * // => false
  */
-class Logger {
+const isObject = (val) => !isNil(val) &amp;&amp; (isTypeOf(val, "object") || isTypeOf(val, "function"));
+
+const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+
+/**
+ * Default {@link ILogger} class.
+ */
+class DefaultLogger {
     /**
-     * Creates a new {@link Logger}.
+     * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}
      *
      * @param root Root logger of this logger.
@@ -154,7 +203,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     error(...args) {
-        this.log(Level.ERROR, args);
+        this.log(Level.ERROR, ...args);
     }
     /**
      * Logs a warning.
@@ -162,7 +211,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     warn(...args) {
-        this.log(Level.WARN, args);
+        this.log(Level.WARN, ...args);
     }
     /**
      * Logs an info.
@@ -170,7 +219,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     info(...args) {
-        this.log(Level.INFO, args);
+        this.log(Level.INFO, ...args);
     }
     /**
      * Logs a debug message.
@@ -178,7 +227,7 @@ class Logger {
      * @param args arguments to be logged.
      */
     debug(...args) {
-        this.log(Level.DEBUG, args);
+        this.log(Level.DEBUG, ...args);
     }
     /**
      * Logs a trace message.
@@ -186,14 +235,12 @@ class Logger {
      * @param args arguments to be logged.
      */
     trace(...args) {
-        this.log(Level.TRACE, args);
+        this.log(Level.TRACE, ...args);
     }
 }
 
-const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name} - ${args[0]}`, ...args.slice(1));
-
 /**
- * Logger-root class.
+ * DefaultLogger-root class.
  */
 class Logby {
     /**
@@ -210,11 +257,11 @@ class Logby {
      * Get a logger instance.
      *
      * @param nameable A string or an INameable (ex: class, function).
-     * @returns The Logger instance.
+     * @returns The DefaultLogger instance.
      */
     getLogger(nameable) {
         let name;
-        if ("name" in nameable) {
+        if (isObject(nameable) &amp;&amp; "name" in nameable) {
             name = nameable.name;
         }
         else if (isString(nameable)) {
@@ -226,7 +273,7 @@ class Logby {
         if (this.loggerMap.has(name)) {
             return this.loggerMap.get(name);
         }
-        const logger = new Logger(this, name);
+        const logger = new DefaultLogger(this, name);
         this.loggerMap.set(name, logger);
         return logger;
     }
@@ -247,7 +294,7 @@ export { Level, Logby };
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Sep 14 2018 18:53:46 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Sep 19 2018 19:58:23 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

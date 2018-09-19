@@ -1,4 +1,4 @@
-import { Level } from "./level/Level";
+import { Levels } from "./level/Levels";
 import { Logby } from "./Logby";
 import { ILogger } from "./logger/ILogger";
-export { Level, Logby, ILogger };
+export { Levels, Logby, ILogger };

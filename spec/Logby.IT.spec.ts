@@ -1,11 +1,11 @@
-import { Level } from "../src/level/Level";
+import { Levels } from "../src/level/Levels";
 import { Logby } from "../src/Logby";
 
 describe("Logby IT", () => {
     it("IT", () => {
         const loggerRoot = new Logby();
 
-        loggerRoot.level = Level.TRACE;
+        loggerRoot.level = Levels.TRACE;
 
         const logger = loggerRoot.getLogger("Test");
 

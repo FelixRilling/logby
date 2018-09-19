@@ -11,7 +11,7 @@ declare class Logby {
     /**
      * Creates a new logger module.
      *
-     * @param level Level of this logger-root loggers.
+     * @param level Levels of this logger-root loggers.
      */
     constructor(level?: ILevel);
     /**

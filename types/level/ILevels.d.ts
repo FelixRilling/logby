@@ -1,7 +1,5 @@
 import { ILevel } from "./ILevel";
-
-interface ILevelList {
+interface ILevels {
     [key: string]: ILevel;
 }
-
-export { ILevelList };
+export { ILevels };

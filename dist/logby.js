@@ -5,7 +5,7 @@ var logby = (function (exports) {
     /**
      * Default level-list.
      */
-    const Level = {
+    const Levels = {
         NONE: {
             val: -1
         },
@@ -150,7 +150,7 @@ var logby = (function (exports) {
         /**
          * Logs a message.
          *
-         * @param level Level of the log.
+         * @param level Levels of the log.
          * @param args arguments to be logged.
          */
         log(level, ...args) {
@@ -164,7 +164,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         error(...args) {
-            this.log(Level.ERROR, ...args);
+            this.log(Levels.ERROR, ...args);
         }
         /**
          * Logs a warning.
@@ -172,7 +172,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         warn(...args) {
-            this.log(Level.WARN, ...args);
+            this.log(Levels.WARN, ...args);
         }
         /**
          * Logs an info.
@@ -180,7 +180,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         info(...args) {
-            this.log(Level.INFO, ...args);
+            this.log(Levels.INFO, ...args);
         }
         /**
          * Logs a debug message.
@@ -188,7 +188,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         debug(...args) {
-            this.log(Level.DEBUG, ...args);
+            this.log(Levels.DEBUG, ...args);
         }
         /**
          * Logs a trace message.
@@ -196,7 +196,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         trace(...args) {
-            this.log(Level.TRACE, ...args);
+            this.log(Levels.TRACE, ...args);
         }
     }
 
@@ -207,9 +207,9 @@ var logby = (function (exports) {
         /**
          * Creates a new logger module.
          *
-         * @param level Level of this logger-root loggers.
+         * @param level Levels of this logger-root loggers.
          */
-        constructor(level = Level.INFO) {
+        constructor(level = Levels.INFO) {
             this.loggerMap = new Map();
             this.level = level;
             this.appenderQueue = [defaultAppenderFn];
@@ -240,7 +240,7 @@ var logby = (function (exports) {
         }
     }
 
-    exports.Level = Level;
+    exports.Levels = Levels;
     exports.Logby = Logby;
 
     return exports;

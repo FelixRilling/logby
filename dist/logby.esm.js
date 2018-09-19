@@ -2,7 +2,7 @@
 /**
  * Default level-list.
  */
-const Level = {
+const Levels = {
     NONE: {
         val: -1
     },
@@ -147,7 +147,7 @@ class DefaultLogger {
     /**
      * Logs a message.
      *
-     * @param level Level of the log.
+     * @param level Levels of the log.
      * @param args arguments to be logged.
      */
     log(level, ...args) {
@@ -161,7 +161,7 @@ class DefaultLogger {
      * @param args arguments to be logged.
      */
     error(...args) {
-        this.log(Level.ERROR, ...args);
+        this.log(Levels.ERROR, ...args);
     }
     /**
      * Logs a warning.
@@ -169,7 +169,7 @@ class DefaultLogger {
      * @param args arguments to be logged.
      */
     warn(...args) {
-        this.log(Level.WARN, ...args);
+        this.log(Levels.WARN, ...args);
     }
     /**
      * Logs an info.
@@ -177,7 +177,7 @@ class DefaultLogger {
      * @param args arguments to be logged.
      */
     info(...args) {
-        this.log(Level.INFO, ...args);
+        this.log(Levels.INFO, ...args);
     }
     /**
      * Logs a debug message.
@@ -185,7 +185,7 @@ class DefaultLogger {
      * @param args arguments to be logged.
      */
     debug(...args) {
-        this.log(Level.DEBUG, ...args);
+        this.log(Levels.DEBUG, ...args);
     }
     /**
      * Logs a trace message.
@@ -193,7 +193,7 @@ class DefaultLogger {
      * @param args arguments to be logged.
      */
     trace(...args) {
-        this.log(Level.TRACE, ...args);
+        this.log(Levels.TRACE, ...args);
     }
 }
 
@@ -204,9 +204,9 @@ class Logby {
     /**
      * Creates a new logger module.
      *
-     * @param level Level of this logger-root loggers.
+     * @param level Levels of this logger-root loggers.
      */
-    constructor(level = Level.INFO) {
+    constructor(level = Levels.INFO) {
         this.loggerMap = new Map();
         this.level = level;
         this.appenderQueue = [defaultAppenderFn];
@@ -237,4 +237,4 @@ class Logby {
     }
 }
 
-export { Level, Logby };
+export { Levels, Logby };

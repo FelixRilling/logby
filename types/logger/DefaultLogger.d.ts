@@ -18,7 +18,7 @@ declare class DefaultLogger implements ILogger {
     /**
      * Logs a message.
      *
-     * @param level Level of the log.
+     * @param level Levels of the log.
      * @param args arguments to be logged.
      */
     log(level: ILevel, ...args: any[]): void;

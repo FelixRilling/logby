@@ -1,10 +1,10 @@
-import { ILevelList } from "./ILevelList";
+import { ILevels } from "./ILevels";
 
 // noinspection TsLint
 /**
  * Default level-list.
  */
-const Level: ILevelList = {
+const Levels: ILevels = {
     NONE: {
         val: -1
     },
@@ -30,4 +30,4 @@ const Level: ILevelList = {
     }
 };
 
-export { Level };
+export { Levels };

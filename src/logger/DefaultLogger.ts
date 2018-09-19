@@ -1,5 +1,5 @@
 import { ILevel } from "../level/ILevel";
-import { Level } from "../level/Level";
+import { Levels } from "../level/Levels";
 import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
 
@@ -25,7 +25,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs a message.
      *
-     * @param level Level of the log.
+     * @param level Levels of the log.
      * @param args arguments to be logged.
      */
     public log(level: ILevel, ...args: any[]) {
@@ -40,7 +40,7 @@ class DefaultLogger implements ILogger {
      * @param args arguments to be logged.
      */
     public error(...args: any[]) {
-        this.log(Level.ERROR, ...args);
+        this.log(Levels.ERROR, ...args);
     }
 
     /**
@@ -49,7 +49,7 @@ class DefaultLogger implements ILogger {
      * @param args arguments to be logged.
      */
     public warn(...args: any[]) {
-        this.log(Level.WARN, ...args);
+        this.log(Levels.WARN, ...args);
     }
 
     /**
@@ -58,7 +58,7 @@ class DefaultLogger implements ILogger {
      * @param args arguments to be logged.
      */
     public info(...args: any[]) {
-        this.log(Level.INFO, ...args);
+        this.log(Levels.INFO, ...args);
     }
 
     /**
@@ -67,7 +67,7 @@ class DefaultLogger implements ILogger {
      * @param args arguments to be logged.
      */
     public debug(...args: any[]) {
-        this.log(Level.DEBUG, ...args);
+        this.log(Levels.DEBUG, ...args);
     }
 
     /**
@@ -76,7 +76,7 @@ class DefaultLogger implements ILogger {
      * @param args arguments to be logged.
      */
     public trace(...args: any[]) {
-        this.log(Level.TRACE, ...args);
+        this.log(Levels.TRACE, ...args);
     }
 }
 
