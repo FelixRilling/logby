@@ -10,24 +10,24 @@ const Level = {
         val: -1
     },
     ERROR: {
-        val: 0,
-        name: "ERROR"
+        name: "ERROR",
+        val: 0
     },
     WARN: {
-        val: 1,
-        name: "WARN"
+        name: "WARN",
+        val: 1
     },
     INFO: {
-        val: 2,
-        name: "INFO"
+        name: "INFO",
+        val: 2
     },
     DEBUG: {
-        val: 3,
-        name: "DEBUG"
+        name: "DEBUG",
+        val: 3
     },
     TRACE: {
-        val: 4,
-        name: "TRACE"
+        name: "TRACE",
+        val: 4
     }
 };
 
@@ -48,6 +48,24 @@ const Level = {
  * isArray({});
  * // => false
  */
+
+/**
+ * Checks if the value has a certain type-string.
+ *
+ * @function isTypeOf
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val
+ * @param {string} type
+ * @returns {boolean}
+ * @example
+ * isTypeOf("foo", "string")
+ * // => true
+ *
+ * isTypeOf("foo", "number")
+ * // => false
+ */
+const isTypeOf = (val, type) => typeof val === type;
 
 /**
  * Checks if a value is undefined or null.
@@ -71,24 +89,6 @@ const Level = {
  * // => false
  */
 const isNil = (val) => val == null;
-
-/**
- * Checks if the value has a certain type-string.
- *
- * @function isTypeOf
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @param {string} type
- * @returns {boolean}
- * @example
- * isTypeOf("foo", "string")
- * // => true
- *
- * isTypeOf("foo", "number")
- * // => false
- */
-const isTypeOf = (val, type) => typeof val === type;
 
 /**
  * Checks if a value is a string.

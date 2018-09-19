@@ -46,7 +46,7 @@ class Logby {
         }
 
         if (this.loggerMap.has(name)) {
-            return <Logger>this.loggerMap.get(name);
+            return this.loggerMap.get(name)!;
         }
 
         const logger = new Logger(this, name);

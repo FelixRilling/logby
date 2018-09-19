@@ -1,5 +1,5 @@
-import { Logby } from "../src/Logby";
 import { Level } from "../src/level/Level";
+import { Logby } from "../src/Logby";
 
 describe("Logby IT", () => {
     it("IT", () => {

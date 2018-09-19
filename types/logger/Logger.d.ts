@@ -1,6 +1,6 @@
-import { ILogger } from "./ILogger";
 import { ILevel } from "../level/ILevel";
 import { Logby } from "../Logby";
+import { ILogger } from "./ILogger";
 /**
  * Logger class.
  */

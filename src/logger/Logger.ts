@@ -1,7 +1,7 @@
-import { ILogger } from "./ILogger";
 import { ILevel } from "../level/ILevel";
 import { Level } from "../level/Level";
 import { Logby } from "../Logby";
+import { ILogger } from "./ILogger";
 
 /**
  * Logger class.
@@ -28,7 +28,7 @@ class Logger implements ILogger {
      * @param level Level of the log.
      * @param args arguments to be logged.
      */
-    log(level: ILevel, args: any[]) {
+    public log(level: ILevel, args: any[]) {
         if (this.root.level.val >= level.val) {
             this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
         }
@@ -39,7 +39,7 @@ class Logger implements ILogger {
      *
      * @param args arguments to be logged.
      */
-    error(...args: any[]) {
+    public error(...args: any[]) {
         this.log(Level.ERROR, args);
     }
 
@@ -48,7 +48,7 @@ class Logger implements ILogger {
      *
      * @param args arguments to be logged.
      */
-    warn(...args: any[]) {
+    public warn(...args: any[]) {
         this.log(Level.WARN, args);
     }
 
@@ -57,7 +57,7 @@ class Logger implements ILogger {
      *
      * @param args arguments to be logged.
      */
-    info(...args: any[]) {
+    public info(...args: any[]) {
         this.log(Level.INFO, args);
     }
 
@@ -66,7 +66,7 @@ class Logger implements ILogger {
      *
      * @param args arguments to be logged.
      */
-    debug(...args: any[]) {
+    public debug(...args: any[]) {
         this.log(Level.DEBUG, args);
     }
 
@@ -75,7 +75,7 @@ class Logger implements ILogger {
      *
      * @param args arguments to be logged.
      */
-    trace(...args: any[]) {
+    public trace(...args: any[]) {
         this.log(Level.TRACE, args);
     }
 }

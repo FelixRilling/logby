@@ -8,24 +8,24 @@ const Level: ILevelList = {
         val: -1
     },
     ERROR: {
-        val: 0,
-        name: "ERROR"
+        name: "ERROR",
+        val: 0
     },
     WARN: {
-        val: 1,
-        name: "WARN"
+        name: "WARN",
+        val: 1
     },
     INFO: {
-        val: 2,
-        name: "INFO"
+        name: "INFO",
+        val: 2
     },
     DEBUG: {
-        val: 3,
-        name: "DEBUG"
+        name: "DEBUG",
+        val: 3
     },
     TRACE: {
-        val: 4,
-        name: "TRACE"
+        name: "TRACE",
+        val: 4
     }
 };
 
