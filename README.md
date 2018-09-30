@@ -7,6 +7,8 @@
 Logby is a TypeScript logger inspired by logger solutions from the Java world
 like [logback](https://logback.qos.ch/index.html) and [slf4j](https://www.slf4j.org/).
 
+**[Docs](https://felixrilling.github.io/logby/)**
+
 ## Usage
 
 ```shell
