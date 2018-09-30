@@ -1,4 +1,3 @@
-// noinspection TsLint
 /**
  * Default level-list.
  */

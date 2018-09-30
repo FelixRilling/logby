@@ -15,10 +15,40 @@ describe("Logby IT", () => {
         const exampleArr = [1, 2, 3];
         const exampleObj = { a: 1 };
 
-        logger.trace(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
-        logger.debug(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
-        logger.info(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
-        logger.warn(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
-        logger.error(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.trace(
+            exampleBoolean,
+            exampleNumber,
+            exampleString,
+            exampleArr,
+            exampleObj
+        );
+        logger.debug(
+            exampleBoolean,
+            exampleNumber,
+            exampleString,
+            exampleArr,
+            exampleObj
+        );
+        logger.info(
+            exampleBoolean,
+            exampleNumber,
+            exampleString,
+            exampleArr,
+            exampleObj
+        );
+        logger.warn(
+            exampleBoolean,
+            exampleNumber,
+            exampleString,
+            exampleArr,
+            exampleObj
+        );
+        logger.error(
+            exampleBoolean,
+            exampleNumber,
+            exampleString,
+            exampleArr,
+            exampleObj
+        );
     });
 });

@@ -1,7 +1,6 @@
 var logby = (function (exports) {
     'use strict';
 
-    // noinspection TsLint
     /**
      * Default level-list.
      */

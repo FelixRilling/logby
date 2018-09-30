@@ -2,7 +2,6 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-// noinspection TsLint
 /**
  * Default level-list.
  */
