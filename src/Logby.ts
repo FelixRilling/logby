@@ -8,7 +8,9 @@ import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
 
 /**
- * DefaultLogger-root class.
+ * Logger-root class.
+ *
+ * @public
  */
 class Logby {
     public level: ILevel;
@@ -27,10 +29,10 @@ class Logby {
     }
 
     /**
-     * Get a logger instance.
+     * Get and/or creates a logger instance.
      *
      * @param nameable A string or an INameable (ex: class, function).
-     * @returns The DefaultLogger instance.
+     * @returns The logger instance.
      */
     public getLogger(nameable: any): ILogger {
         let name: string;

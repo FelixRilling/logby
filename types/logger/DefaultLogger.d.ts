@@ -3,6 +3,8 @@ import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
 /**
  * Default {@link ILogger} class.
+ *
+ * @private
  */
 declare class DefaultLogger implements ILogger {
     private readonly root;

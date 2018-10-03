@@ -2,6 +2,8 @@ import { ILevels } from "./ILevels";
 
 /**
  * Default level-list.
+ *
+ * @public
  */
 const Levels: ILevels = {
     NONE: {

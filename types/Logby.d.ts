@@ -2,7 +2,9 @@ import { appenderFn } from "./appender/appenderFn";
 import { ILevel } from "./level/ILevel";
 import { ILogger } from "./logger/ILogger";
 /**
- * DefaultLogger-root class.
+ * Logger-root class.
+ *
+ * @public
  */
 declare class Logby {
     level: ILevel;
@@ -15,10 +17,10 @@ declare class Logby {
      */
     constructor(level?: ILevel);
     /**
-     * Get a logger instance.
+     * Get and/or creates a logger instance.
      *
      * @param nameable A string or an INameable (ex: class, function).
-     * @returns The DefaultLogger instance.
+     * @returns The logger instance.
      */
     getLogger(nameable: any): ILogger;
 }

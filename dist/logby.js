@@ -3,6 +3,8 @@ var logby = (function (exports) {
 
     /**
      * Default level-list.
+     *
+     * @public
      */
     const Levels = {
         NONE: {
@@ -129,10 +131,36 @@ var logby = (function (exports) {
      */
     const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
 
-    const defaultAppenderFn = (level, name, args) => console.log(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+    /**
+     * The default appender-fn, doing the actual logging.
+     *
+     * @private
+     * @param level Level of the entry to log.
+     * @param name Name of the logger instance.
+     * @param args Arguments to log.
+     */
+    const defaultAppenderFn = (level, name, args) => {
+        const meta = `${new Date().toISOString()} ${level.name} ${name}`;
+        let loggerFn = console.log;
+        if (level === Levels.ERROR) {
+            // tslint:disable-next-line
+            loggerFn = console.error;
+        }
+        else if (level === Levels.WARN) {
+            // tslint:disable-next-line
+            loggerFn = console.warn;
+        }
+        else if (level === Levels.INFO) {
+            // tslint:disable-next-line
+            loggerFn = console.info;
+        }
+        loggerFn(meta, ...args);
+    };
 
     /**
      * Default {@link ILogger} class.
+     *
+     * @private
      */
     class DefaultLogger {
         /**
@@ -200,7 +228,9 @@ var logby = (function (exports) {
     }
 
     /**
-     * DefaultLogger-root class.
+     * Logger-root class.
+     *
+     * @public
      */
     class Logby {
         /**
@@ -214,10 +244,10 @@ var logby = (function (exports) {
             this.appenderQueue = [defaultAppenderFn];
         }
         /**
-         * Get a logger instance.
+         * Get and/or creates a logger instance.
          *
          * @param nameable A string or an INameable (ex: class, function).
-         * @returns The DefaultLogger instance.
+         * @returns The logger instance.
          */
         getLogger(nameable) {
             let name;
