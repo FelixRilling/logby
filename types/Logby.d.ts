@@ -2,20 +2,18 @@ import { appenderFn } from "./appender/appenderFn";
 import { ILevel } from "./level/ILevel";
 import { ILogger } from "./logger/ILogger";
 /**
- * Logger-root class.
+ * Logby class.
  *
  * @public
  */
 declare class Logby {
-    level: ILevel;
-    appenderQueue: appenderFn[];
     private readonly loggerMap;
+    private level;
+    appenderQueue: appenderFn[];
     /**
-     * Creates a new logger module.
-     *
-     * @param level Levels of this logger-root loggers.
+     * Creates a new Logby instance.
      */
-    constructor(level?: ILevel);
+    constructor();
     /**
      * Get and/or creates a logger instance.
      *
@@ -23,5 +21,7 @@ declare class Logby {
      * @returns The logger instance.
      */
     getLogger(nameable: any): ILogger;
+    getLevel(): ILevel;
+    setLevel(value: ILevel): void;
 }
 export { Logby };

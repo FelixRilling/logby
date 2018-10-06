@@ -181,7 +181,7 @@ var logby = (function (exports) {
          * @param args arguments to be logged.
          */
         log(level, ...args) {
-            if (this.root.level.val >= level.val) {
+            if (this.root.getLevel().val >= level.val) {
                 this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
             }
         }
@@ -228,19 +228,17 @@ var logby = (function (exports) {
     }
 
     /**
-     * Logger-root class.
+     * Logby class.
      *
      * @public
      */
     class Logby {
         /**
-         * Creates a new logger module.
-         *
-         * @param level Levels of this logger-root loggers.
+         * Creates a new Logby instance.
          */
-        constructor(level = Levels.INFO) {
+        constructor() {
             this.loggerMap = new Map();
-            this.level = level;
+            this.level = Levels.INFO;
             this.appenderQueue = [defaultAppenderFn];
         }
         /**
@@ -266,6 +264,12 @@ var logby = (function (exports) {
             const logger = new DefaultLogger(this, name);
             this.loggerMap.set(name, logger);
             return logger;
+        }
+        getLevel() {
+            return this.level;
+        }
+        setLevel(value) {
+            this.level = value;
         }
     }
 

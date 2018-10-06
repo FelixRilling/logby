@@ -8,23 +8,21 @@ import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
 
 /**
- * Logger-root class.
+ * Logby class.
  *
  * @public
  */
 class Logby {
-    public level: ILevel;
+    private readonly loggerMap = new Map<string, ILogger>();
+    private level: ILevel;
+
     public appenderQueue: appenderFn[];
 
-    private readonly loggerMap = new Map<string, ILogger>();
-
     /**
-     * Creates a new logger module.
-     *
-     * @param level Levels of this logger-root loggers.
+     * Creates a new Logby instance.
      */
-    constructor(level: ILevel = Levels.INFO) {
-        this.level = level;
+    constructor() {
+        this.level = Levels.INFO;
         this.appenderQueue = [defaultAppenderFn];
     }
 
@@ -55,6 +53,14 @@ class Logby {
         this.loggerMap.set(name, logger);
 
         return logger;
+    }
+
+    getLevel(): ILevel {
+        return this.level;
+    }
+
+    setLevel(value: ILevel) {
+        this.level = value;
     }
 }
 

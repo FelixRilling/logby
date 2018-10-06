@@ -15,11 +15,11 @@ like [logback](https://logback.qos.ch/index.html) and [slf4j](https://www.slf4j.
 npm install logby
 ```
 
-Each logger instance is part of a logger-root.
-The logger-root handles caching of logger instances, the logger appender-queue and the active log-level.
+Each logger instance is part of a logby instance.
+The logby instance handles caching of logger instances, the appender-queue and the active log level.
 The logger instances do the actual logging for a class.
 
-In most cases, you want one logger-root for your application, and multiple loggers from that root for
+In most cases, you want one logby instance for your application, and multiple loggers from that for
 the different components and classes of your application.
 
 ```typescript
@@ -34,7 +34,7 @@ class Foo {
   constructor(){
     this.logger.info("Hello World!");
 
-    loggerRoot.level = Levels.ERROR;
+    loggerRoot.setLevel(Levels.ERROR);
 
      this.logger.info("You can't see me.");
   }
