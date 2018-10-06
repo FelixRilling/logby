@@ -128,6 +128,7 @@ const isString = (val) => isTypeOf(val, "string");
  */
 const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
 
+const DEFAULT_APPENDER_NAME = "defaultAppender";
 /**
  * The default appender-fn, doing the actual logging.
  *
@@ -137,7 +138,6 @@ const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(va
  * @param args Arguments to log.
  */
 const defaultAppenderFn = (level, name, args) => {
-    const meta = `${new Date().toISOString()} ${level.name} ${name}`;
     let loggerFn = console.log;
     if (level === Levels.ERROR) {
         // tslint:disable-next-line
@@ -151,7 +151,7 @@ const defaultAppenderFn = (level, name, args) => {
         // tslint:disable-next-line
         loggerFn = console.info;
     }
-    loggerFn(meta, ...args);
+    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 };
 
 /**
@@ -179,7 +179,7 @@ class DefaultLogger {
      */
     log(level, ...args) {
         if (this.root.getLevel().val >= level.val) {
-            this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
+            this.root.getAppenders().forEach(fn => fn(level, this.name, args));
         }
     }
     /**
@@ -234,9 +234,9 @@ class Logby {
      * Creates a new Logby instance.
      */
     constructor() {
-        this.loggerMap = new Map();
+        this.loggers = new Map();
+        this.appenders = new Map([[DEFAULT_APPENDER_NAME, defaultAppenderFn]]);
         this.level = Levels.INFO;
-        this.appenderQueue = [defaultAppenderFn];
     }
     /**
      * Get and/or creates a logger instance.
@@ -255,18 +255,53 @@ class Logby {
         else {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
-        if (this.loggerMap.has(name)) {
-            return this.loggerMap.get(name);
+        if (this.loggers.has(name)) {
+            return this.loggers.get(name);
         }
         const logger = new DefaultLogger(this, name);
-        this.loggerMap.set(name, logger);
+        this.loggers.set(name, logger);
         return logger;
     }
+    /**
+     * Get the active log level.
+     *
+     * @return The active log level.
+     */
     getLevel() {
         return this.level;
     }
-    setLevel(value) {
-        this.level = value;
+    /**
+     * Set the active log level.
+     *
+     * @param level Level to set.
+     */
+    setLevel(level) {
+        this.level = level;
+    }
+    /**
+     * Attaches an appender to the instance.
+     *
+     * @param name Name of the appender.
+     * @param fn Appender function.
+     */
+    attachAppender(name, fn) {
+        this.appenders.set(name, fn);
+    }
+    /**
+     * Detaches an appender.
+     *
+     * @param name Name of the appender.
+     */
+    detachAppender(name) {
+        this.appenders.delete(name);
+    }
+    /**
+     * Get all active appenders.
+     *
+     * @return All active appenders.
+     */
+    getAppenders() {
+        return this.appenders;
     }
 }
 

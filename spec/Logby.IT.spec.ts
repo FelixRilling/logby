@@ -5,7 +5,7 @@ describe("Logby IT", () => {
     it("IT", () => {
         const loggerRoot = new Logby();
 
-        loggerRoot.level = Levels.TRACE;
+        loggerRoot.setLevel(Levels.TRACE);
 
         const logger = loggerRoot.getLogger("Test");
 

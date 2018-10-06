@@ -2,6 +2,8 @@ import { ILevel } from "../level/ILevel";
 import { Levels } from "../level/Levels";
 import { appenderFn } from "./appenderFn";
 
+const DEFAULT_APPENDER_NAME = "defaultAppender";
+
 /**
  * The default appender-fn, doing the actual logging.
  *
@@ -15,7 +17,6 @@ const defaultAppenderFn: appenderFn = (
     name: string,
     args: any[]
 ) => {
-    const meta = `${new Date().toISOString()} ${level.name} ${name}`;
     let loggerFn = console.log;
 
     if (level === Levels.ERROR) {
@@ -29,7 +30,7 @@ const defaultAppenderFn: appenderFn = (
         loggerFn = console.info;
     }
 
-    loggerFn(meta, ...args);
+    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 };
 
-export { defaultAppenderFn };
+export { DEFAULT_APPENDER_NAME, defaultAppenderFn };

@@ -1,11 +1,13 @@
 import { isObject, isString } from "lightdash";
 import { ITypedObject } from "lightdash/types/obj/lib/ITypedObject";
 import { appenderFn } from "./appender/appenderFn";
-import { defaultAppenderFn } from "./appender/defaultAppenderFn";
+import { appenderMap } from "./appender/appenderMap";
+import { DEFAULT_APPENDER_NAME, defaultAppenderFn } from "./appender/defaultAppender";
 import { ILevel } from "./level/ILevel";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
+import { loggerMap } from "./logger/loggerMap";
 
 /**
  * Logby class.
@@ -13,17 +15,17 @@ import { ILogger } from "./logger/ILogger";
  * @public
  */
 class Logby {
-    private readonly loggerMap = new Map<string, ILogger>();
+    private readonly loggers: loggerMap;
+    private readonly appenders: appenderMap;
     private level: ILevel;
-
-    public appenderQueue: appenderFn[];
 
     /**
      * Creates a new Logby instance.
      */
     constructor() {
+        this.loggers = new Map<string, ILogger>();
+        this.appenders = new Map<string, appenderFn>([[DEFAULT_APPENDER_NAME, defaultAppenderFn]]);
         this.level = Levels.INFO;
-        this.appenderQueue = [defaultAppenderFn];
     }
 
     /**
@@ -45,22 +47,60 @@ class Logby {
             );
         }
 
-        if (this.loggerMap.has(name)) {
-            return this.loggerMap.get(name)!;
+        if (this.loggers.has(name)) {
+            return this.loggers.get(name)!;
         }
 
         const logger = new DefaultLogger(this, name);
-        this.loggerMap.set(name, logger);
+        this.loggers.set(name, logger);
 
         return logger;
     }
 
-    getLevel(): ILevel {
+    /**
+     * Get the active log level.
+     *
+     * @return The active log level.
+     */
+    public getLevel(): ILevel {
         return this.level;
     }
 
-    setLevel(value: ILevel) {
-        this.level = value;
+    /**
+     * Set the active log level.
+     *
+     * @param level Level to set.
+     */
+    public setLevel(level: ILevel) {
+        this.level = level;
+    }
+
+    /**
+     * Attaches an appender to the instance.
+     *
+     * @param name Name of the appender.
+     * @param fn Appender function.
+     */
+    public attachAppender(name: string, fn: appenderFn): void {
+        this.appenders.set(name, fn);
+    }
+
+    /**
+     * Detaches an appender.
+     *
+     * @param name Name of the appender.
+     */
+    public detachAppender(name: string): void {
+        this.appenders.delete(name);
+    }
+
+    /**
+     * Get all active appenders.
+     *
+     * @return All active appenders.
+     */
+    public getAppenders(): appenderMap {
+        return this.appenders;
     }
 }
 

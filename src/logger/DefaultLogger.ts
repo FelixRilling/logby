@@ -32,7 +32,7 @@ class DefaultLogger implements ILogger {
      */
     public log(level: ILevel, ...args: any[]) {
         if (this.root.getLevel().val >= level.val) {
-            this.root.appenderQueue.forEach(fn => fn(level, this.name, args));
+            this.root.getAppenders().forEach(fn => fn(level, this.name, args));
         }
     }
 
