@@ -15,28 +15,54 @@ like [logback](https://logback.qos.ch/index.html) and [slf4j](https://www.slf4j.
 npm install logby
 ```
 
-Each logger instance is part of a logby instance.
-The logby instance handles caching of logger instances, the appender-queue and the active log level.
+Each logger instance is part of a Logby instance.
+The Logby instance handles caching of logger instances, the appender-queue and the active log level.
 The logger instances do the actual logging for a class.
 
-In most cases, you want one logby instance for your application, and multiple loggers from that for
+In most cases, you want one Logby instance for your application, and multiple loggers from that for
 the different components and classes of your application.
 
 ```typescript
 import { Logby, Levels } from "logby";
 
-const loggerRoot = new Logby();
+const logby = new Logby();
 
 class Foo {
 
-  private static final logger = loggerRoot.getLogger(Foo);
+  private static readonly logger = logby.getLogger(Foo);
 
   constructor(){
-    this.logger.info("Hello World!");
+    Foo.logger.info("Hello World!");
 
-    loggerRoot.setLevel(Levels.ERROR);
+    logby.setLevel(Levels.ERROR);
 
-     this.logger.info("You can't see me.");
+     Foo.logger.info("You can't see me.");
+  }
+
+}
+```
+
+### Appenders
+
+Appenders can be attached and detached from Logby instances:
+
+```typescript
+import { Logby, Levels, ILevel, DEFAULT_APPENDER_NAME } from "logby";
+
+const logby = new Logby();
+
+/*
+* Detach the built-in appender and attach our own.
+*/
+logby.detachAppender(DEFAULT_APPENDER_NAME);
+logby.attachAppender("myAppender", (level: ILevel, name: string, args: any[]) => console.log(args));
+
+class Foo {
+
+  private static readonly logger = logby.getLogger(Foo);
+
+  constructor(){
+    Foo.logger.info("Hello World!");
   }
 
 }
@@ -52,3 +78,5 @@ class Foo {
 | 2   | Info  |
 | 3   | Debug |
 | 4   | Trace |
+
+

@@ -33,6 +33,32 @@ const Levels = {
     }
 };
 
+const DEFAULT_APPENDER_NAME = "defaultAppender";
+/**
+ * The default appender-fn, doing the actual logging.
+ *
+ * @private
+ * @param level Level of the entry to log.
+ * @param name Name of the logger instance.
+ * @param args Arguments to log.
+ */
+const defaultAppenderFn = (level, name, args) => {
+    let loggerFn = console.log;
+    if (level === Levels.ERROR) {
+        // tslint:disable-next-line
+        loggerFn = console.error;
+    }
+    else if (level === Levels.WARN) {
+        // tslint:disable-next-line
+        loggerFn = console.warn;
+    }
+    else if (level === Levels.INFO) {
+        // tslint:disable-next-line
+        loggerFn = console.info;
+    }
+    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+};
+
 /**
  * Checks if a value is an array.
  *
@@ -131,32 +157,6 @@ const isString = (val) => isTypeOf(val, "string");
  * // => false
  */
 const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
-
-const DEFAULT_APPENDER_NAME = "defaultAppender";
-/**
- * The default appender-fn, doing the actual logging.
- *
- * @private
- * @param level Level of the entry to log.
- * @param name Name of the logger instance.
- * @param args Arguments to log.
- */
-const defaultAppenderFn = (level, name, args) => {
-    let loggerFn = console.log;
-    if (level === Levels.ERROR) {
-        // tslint:disable-next-line
-        loggerFn = console.error;
-    }
-    else if (level === Levels.WARN) {
-        // tslint:disable-next-line
-        loggerFn = console.warn;
-    }
-    else if (level === Levels.INFO) {
-        // tslint:disable-next-line
-        loggerFn = console.info;
-    }
-    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
-};
 
 /**
  * Default {@link ILogger} class.
@@ -311,3 +311,5 @@ class Logby {
 
 exports.Levels = Levels;
 exports.Logby = Logby;
+exports.DEFAULT_APPENDER_NAME = DEFAULT_APPENDER_NAME;
+exports.defaultAppenderFn = defaultAppenderFn;
