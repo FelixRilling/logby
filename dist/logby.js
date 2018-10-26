@@ -58,33 +58,16 @@ var logby = (function (exports) {
         loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
     };
 
-    /**
-     * Checks if a value is an array.
-     *
-     * Alias of the native `Array.isArray`.
-     *
-     * @function isArray
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val
-     * @returns {boolean}
-     * @example
-     * isArray([1, 2, 3]);
-     * // => true
-     *
-     * isArray({});
-     * // => false
-     */
+    // File is named "_index.ts" to avoid it being treated as a module index file.
 
     /**
      * Checks if the value has a certain type-string.
      *
-     * @function isTypeOf
      * @memberof Is
      * @since 1.0.0
-     * @param {any} val
-     * @param {string} type
-     * @returns {boolean}
+     * @param {any} val Value to check.
+     * @param {string} type Type string to compare the value to.
+     * @returns {boolean} If the value has the type provided.
      * @example
      * isTypeOf("foo", "string")
      * // => true
@@ -97,11 +80,10 @@ var logby = (function (exports) {
     /**
      * Checks if a value is undefined or null.
      *
-     * @function isNil
      * @memberof Is
      * @since 1.0.0
-     * @param {any} val
-     * @returns {boolean}
+     * @param {any} val Value to check.
+     * @returns {boolean} If the value is nil.
      * @example
      * isNil(null)
      * // => true
@@ -120,11 +102,10 @@ var logby = (function (exports) {
     /**
      * Checks if a value is a string.
      *
-     * @function isString
      * @memberof Is
      * @since 1.0.0
-     * @param {any} val
-     * @returns {boolean}
+     * @param {any} val Value to check.
+     * @returns {boolean} if the value is a string.
      * @example
      * isString("foo")
      * // => true
@@ -137,11 +118,10 @@ var logby = (function (exports) {
     /**
      * Checks if a value is an object.
      *
-     * @function isObject
      * @memberof Is
      * @since 1.0.0
-     * @param {any} val
-     * @returns {boolean}
+     * @param {any} val Value to check.
+     * @returns {boolean} If the value is an object.
      * @example
      * isObject({})
      * // => true
