@@ -32,9 +32,12 @@ var logby = (function (exports) {
         }
     };
 
+    /**
+     * Name of the default appenderFn, can be used to detach it.
+     */
     const DEFAULT_APPENDER_NAME = "defaultAppender";
     /**
-     * The default appender-fn, doing the actual logging.
+     * Default appender-fn, doing the actual logging.
      *
      * @private
      * @param level Level of the entry to log.
@@ -145,7 +148,7 @@ var logby = (function (exports) {
     class DefaultLogger {
         /**
          * Creates a new {@link DefaultLogger}.
-         * Should not be constructed directly, rather use {@link Logby.getLogger}
+         * Should not be constructed directly, rather use {@link Logby.getLogger}.
          *
          * @param root Root logger of this logger.
          * @param name Name of the logger.
@@ -158,7 +161,7 @@ var logby = (function (exports) {
          * Logs a message.
          *
          * @param level Levels of the log.
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         log(level, ...args) {
             if (this.root.getLevel().val >= level.val) {
@@ -168,7 +171,7 @@ var logby = (function (exports) {
         /**
          * Logs an error.
          *
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         error(...args) {
             this.log(Levels.ERROR, ...args);
@@ -176,7 +179,7 @@ var logby = (function (exports) {
         /**
          * Logs a warning.
          *
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         warn(...args) {
             this.log(Levels.WARN, ...args);
@@ -184,7 +187,7 @@ var logby = (function (exports) {
         /**
          * Logs an info.
          *
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         info(...args) {
             this.log(Levels.INFO, ...args);
@@ -192,7 +195,7 @@ var logby = (function (exports) {
         /**
          * Logs a debug message.
          *
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         debug(...args) {
             this.log(Levels.DEBUG, ...args);
@@ -200,7 +203,7 @@ var logby = (function (exports) {
         /**
          * Logs a trace message.
          *
-         * @param args arguments to be logged.
+         * @param args Arguments to be logged.
          */
         trace(...args) {
             this.log(Levels.TRACE, ...args);
@@ -208,9 +211,7 @@ var logby = (function (exports) {
     }
 
     /**
-     * Logby class.
-     *
-     * @public
+     * Main logby class.
      */
     class Logby {
         /**
@@ -218,13 +219,15 @@ var logby = (function (exports) {
          */
         constructor() {
             this.loggers = new Map();
-            this.appenders = new Map([[DEFAULT_APPENDER_NAME, defaultAppenderFn]]);
+            this.appenders = new Map([
+                [DEFAULT_APPENDER_NAME, defaultAppenderFn]
+            ]);
             this.level = Levels.INFO;
         }
         /**
-         * Get and/or creates a logger instance.
+         * Gets and/or creates a logger instance.
          *
-         * @param nameable A string or an INameable (ex: class, function).
+         * @param nameable String or INameable (ex: named class or named function).
          * @returns The logger instance.
          */
         getLogger(nameable) {
@@ -246,7 +249,7 @@ var logby = (function (exports) {
             return logger;
         }
         /**
-         * Get the active log level.
+         * Gets the active log level.
          *
          * @return The active log level.
          */
@@ -254,7 +257,7 @@ var logby = (function (exports) {
             return this.level;
         }
         /**
-         * Set the active log level.
+         * Sets the active log level.
          *
          * @param level Level to set.
          */
@@ -279,7 +282,7 @@ var logby = (function (exports) {
             this.appenders.delete(name);
         }
         /**
-         * Get all active appenders.
+         * Gets all active appenders.
          *
          * @return All active appenders.
          */

@@ -25,7 +25,7 @@
 
 <nav>
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#attachAppender">attachAppender</a></li><li data-type='method'><a href="Logby.html#detachAppender">detachAppender</a></li><li data-type='method'><a href="Logby.html#getAppenders">getAppenders</a></li><li data-type='method'><a href="Logby.html#getLevel">getLevel</a></li><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li><li data-type='method'><a href="Logby.html#setLevel">setLevel</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#Levels">Levels</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#attachAppender">attachAppender</a></li><li data-type='method'><a href="Logby.html#detachAppender">detachAppender</a></li><li data-type='method'><a href="Logby.html#getAppenders">getAppenders</a></li><li data-type='method'><a href="Logby.html#getLevel">getLevel</a></li><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li><li data-type='method'><a href="Logby.html#setLevel">setLevel</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#DEFAULT_APPENDER_NAME">DEFAULT_APPENDER_NAME</a></li><li><a href="global.html#Levels">Levels</a></li></ul>
 </nav>
 
 <div id="main">
@@ -71,9 +71,12 @@ const Levels = {
     }
 };
 
+/**
+ * Name of the default appenderFn, can be used to detach it.
+ */
 const DEFAULT_APPENDER_NAME = "defaultAppender";
 /**
- * The default appender-fn, doing the actual logging.
+ * Default appender-fn, doing the actual logging.
  *
  * @private
  * @param level Level of the entry to log.
@@ -97,33 +100,16 @@ const defaultAppenderFn = (level, name, args) => {
     loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 };
 
-/**
- * Checks if a value is an array.
- *
- * Alias of the native `Array.isArray`.
- *
- * @function isArray
- * @memberof Is
- * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
- * @example
- * isArray([1, 2, 3]);
- * // => true
- *
- * isArray({});
- * // => false
- */
+// File is named "_index.ts" to avoid it being treated as a module index file.
 
 /**
  * Checks if the value has a certain type-string.
  *
- * @function isTypeOf
  * @memberof Is
  * @since 1.0.0
- * @param {any} val
- * @param {string} type
- * @returns {boolean}
+ * @param {any} val Value to check.
+ * @param {string} type Type string to compare the value to.
+ * @returns {boolean} If the value has the type provided.
  * @example
  * isTypeOf("foo", "string")
  * // => true
@@ -136,11 +122,10 @@ const isTypeOf = (val, type) => typeof val === type;
 /**
  * Checks if a value is undefined or null.
  *
- * @function isNil
  * @memberof Is
  * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
+ * @param {any} val Value to check.
+ * @returns {boolean} If the value is nil.
  * @example
  * isNil(null)
  * // => true
@@ -159,11 +144,10 @@ const isNil = (val) => val == null;
 /**
  * Checks if a value is a string.
  *
- * @function isString
  * @memberof Is
  * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
+ * @param {any} val Value to check.
+ * @returns {boolean} if the value is a string.
  * @example
  * isString("foo")
  * // => true
@@ -176,11 +160,10 @@ const isString = (val) => isTypeOf(val, "string");
 /**
  * Checks if a value is an object.
  *
- * @function isObject
  * @memberof Is
  * @since 1.0.0
- * @param {any} val
- * @returns {boolean}
+ * @param {any} val Value to check.
+ * @returns {boolean} If the value is an object.
  * @example
  * isObject({})
  * // => true
@@ -204,7 +187,7 @@ const isObject = (val) => !isNil(val) &amp;&amp; (isTypeOf(val, "object") || isT
 class DefaultLogger {
     /**
      * Creates a new {@link DefaultLogger}.
-     * Should not be constructed directly, rather use {@link Logby.getLogger}
+     * Should not be constructed directly, rather use {@link Logby.getLogger}.
      *
      * @param root Root logger of this logger.
      * @param name Name of the logger.
@@ -217,7 +200,7 @@ class DefaultLogger {
      * Logs a message.
      *
      * @param level Levels of the log.
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     log(level, ...args) {
         if (this.root.getLevel().val >= level.val) {
@@ -227,7 +210,7 @@ class DefaultLogger {
     /**
      * Logs an error.
      *
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     error(...args) {
         this.log(Levels.ERROR, ...args);
@@ -235,7 +218,7 @@ class DefaultLogger {
     /**
      * Logs a warning.
      *
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     warn(...args) {
         this.log(Levels.WARN, ...args);
@@ -243,7 +226,7 @@ class DefaultLogger {
     /**
      * Logs an info.
      *
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     info(...args) {
         this.log(Levels.INFO, ...args);
@@ -251,7 +234,7 @@ class DefaultLogger {
     /**
      * Logs a debug message.
      *
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     debug(...args) {
         this.log(Levels.DEBUG, ...args);
@@ -259,7 +242,7 @@ class DefaultLogger {
     /**
      * Logs a trace message.
      *
-     * @param args arguments to be logged.
+     * @param args Arguments to be logged.
      */
     trace(...args) {
         this.log(Levels.TRACE, ...args);
@@ -267,9 +250,7 @@ class DefaultLogger {
 }
 
 /**
- * Logby class.
- *
- * @public
+ * Main logby class.
  */
 class Logby {
     /**
@@ -277,13 +258,15 @@ class Logby {
      */
     constructor() {
         this.loggers = new Map();
-        this.appenders = new Map([[DEFAULT_APPENDER_NAME, defaultAppenderFn]]);
+        this.appenders = new Map([
+            [DEFAULT_APPENDER_NAME, defaultAppenderFn]
+        ]);
         this.level = Levels.INFO;
     }
     /**
-     * Get and/or creates a logger instance.
+     * Gets and/or creates a logger instance.
      *
-     * @param nameable A string or an INameable (ex: class, function).
+     * @param nameable String or INameable (ex: named class or named function).
      * @returns The logger instance.
      */
     getLogger(nameable) {
@@ -305,7 +288,7 @@ class Logby {
         return logger;
     }
     /**
-     * Get the active log level.
+     * Gets the active log level.
      *
      * @return The active log level.
      */
@@ -313,7 +296,7 @@ class Logby {
         return this.level;
     }
     /**
-     * Set the active log level.
+     * Sets the active log level.
      *
      * @param level Level to set.
      */
@@ -338,7 +321,7 @@ class Logby {
         this.appenders.delete(name);
     }
     /**
-     * Get all active appenders.
+     * Gets all active appenders.
      *
      * @return All active appenders.
      */
@@ -362,7 +345,7 @@ export { Levels, Logby, DEFAULT_APPENDER_NAME, defaultAppenderFn };
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Oct 06 2018 12:07:02 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Mon Oct 29 2018 18:22:41 GMT+0100 (Central European Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

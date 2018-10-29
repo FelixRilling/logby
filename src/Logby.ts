@@ -2,7 +2,10 @@ import { isObject, isString } from "lightdash";
 import { ITypedObject } from "lightdash/types/obj/lib/ITypedObject";
 import { appenderFn } from "./appender/appenderFn";
 import { appenderMap } from "./appender/appenderMap";
-import { DEFAULT_APPENDER_NAME, defaultAppenderFn } from "./appender/defaultAppender";
+import {
+    DEFAULT_APPENDER_NAME,
+    defaultAppenderFn
+} from "./appender/defaultAppender";
 import { ILevel } from "./level/ILevel";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
@@ -10,9 +13,7 @@ import { ILogger } from "./logger/ILogger";
 import { loggerMap } from "./logger/loggerMap";
 
 /**
- * Logby class.
- *
- * @public
+ * Main logby class.
  */
 class Logby {
     private readonly loggers: loggerMap;
@@ -24,14 +25,16 @@ class Logby {
      */
     constructor() {
         this.loggers = new Map<string, ILogger>();
-        this.appenders = new Map<string, appenderFn>([[DEFAULT_APPENDER_NAME, defaultAppenderFn]]);
+        this.appenders = new Map<string, appenderFn>([
+            [DEFAULT_APPENDER_NAME, defaultAppenderFn]
+        ]);
         this.level = Levels.INFO;
     }
 
     /**
-     * Get and/or creates a logger instance.
+     * Gets and/or creates a logger instance.
      *
-     * @param nameable A string or an INameable (ex: class, function).
+     * @param nameable String or INameable (ex: named class or named function).
      * @returns The logger instance.
      */
     public getLogger(nameable: any): ILogger {
@@ -58,7 +61,7 @@ class Logby {
     }
 
     /**
-     * Get the active log level.
+     * Gets the active log level.
      *
      * @return The active log level.
      */
@@ -67,7 +70,7 @@ class Logby {
     }
 
     /**
-     * Set the active log level.
+     * Sets the active log level.
      *
      * @param level Level to set.
      */
@@ -95,7 +98,7 @@ class Logby {
     }
 
     /**
-     * Get all active appenders.
+     * Gets all active appenders.
      *
      * @return All active appenders.
      */

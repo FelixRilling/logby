@@ -1,4 +1,7 @@
-import { DEFAULT_APPENDER_NAME, defaultAppenderFn } from "./appender/defaultAppender";
+import {
+    DEFAULT_APPENDER_NAME,
+    defaultAppenderFn
+} from "./appender/defaultAppender";
 import { Levels } from "./level/Levels";
 import { Logby } from "./Logby";
 import { ILogger } from "./logger/ILogger";

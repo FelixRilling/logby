@@ -2,10 +2,13 @@ import { ILevel } from "../level/ILevel";
 import { Levels } from "../level/Levels";
 import { appenderFn } from "./appenderFn";
 
+/**
+ * Name of the default appenderFn, can be used to detach it.
+ */
 const DEFAULT_APPENDER_NAME = "defaultAppender";
 
 /**
- * The default appender-fn, doing the actual logging.
+ * Default appender-fn, doing the actual logging.
  *
  * @private
  * @param level Level of the entry to log.
