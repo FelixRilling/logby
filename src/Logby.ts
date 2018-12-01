@@ -1,5 +1,4 @@
 import { isObject, isString } from "lightdash";
-import { ITypedObject } from "lightdash/types/obj/lib/ITypedObject";
 import { appenderFn } from "./appender/appenderFn";
 import { appenderMap } from "./appender/appenderMap";
 import {
@@ -11,6 +10,7 @@ import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
 import { loggerMap } from "./logger/loggerMap";
+import { IAnyObject } from "lightdash/types/obj/lib/IAnyObject";
 
 /**
  * Main logby class.
@@ -41,7 +41,7 @@ class Logby {
         let name: string;
 
         if (isObject(nameable) && "name" in nameable) {
-            name = (<ITypedObject<any>>nameable).name;
+            name = (<IAnyObject>nameable).name;
         } else if (isString(nameable)) {
             name = nameable;
         } else {

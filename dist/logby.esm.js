@@ -61,21 +61,25 @@ const defaultAppenderFn = (level, name, args) => {
 // File is named "_index.ts" to avoid it being treated as a module index file.
 
 /**
- * Checks if the value has a certain type-string.
+ * Checks if the value has any of the given types.
+ * If at least one type gives back true, true is returned.
  *
  * @memberof Is
  * @since 1.0.0
  * @param {any} val Value to check.
- * @param {string} type Type string to compare the value to.
+ * @param {...string} types Type strings to compare the value to.
  * @returns {boolean} If the value has the type provided.
  * @example
  * isTypeOf("foo", "string")
  * // => true
  *
+ * isTypeOf("foo", "number", "string")
+ * // => true
+ *
  * isTypeOf("foo", "number")
  * // => false
  */
-const isTypeOf = (val, type) => typeof val === type;
+const isTypeOf = (val, ...types) => types.some(type => typeof val === type);
 
 /**
  * Checks if a value is undefined or null.
@@ -100,6 +104,31 @@ const isTypeOf = (val, type) => typeof val === type;
 const isNil = (val) => val == null;
 
 /**
+ * Checks if a value is not nil and has a type of object.
+ *
+ * The main difference to {@link isObject} is that functions are not considered object-like,
+ * because `typeof function(){}` returns `"function"`.
+ *
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val Value to check,
+ * @returns {boolean} If the value is object-like.
+ * @example
+ * isObjectLike({})
+ * // => true
+ *
+ * isObjectLike([])
+ * // => true
+ *
+ * isObjectLike(() => 1))
+ * // => false
+ *
+ * isObjectLike(1)
+ * // => false
+ */
+const isObjectLike = (val) => !isNil(val) && isTypeOf(val, "object");
+
+/**
  * Checks if a value is a string.
  *
  * @memberof Is
@@ -114,6 +143,25 @@ const isNil = (val) => val == null;
  * // => false
  */
 const isString = (val) => isTypeOf(val, "string");
+
+/**
+ * Checks if a value is a function.
+ *
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val Value to check.
+ * @returns {boolean} If the value is a function.
+ * @example
+ * isFunction(function a(){})
+ * // => true
+ *
+ * isFunction(Array.from)
+ * // => true
+ *
+ * isFunction(null)
+ * // => false
+ */
+const isFunction = (val) => isTypeOf(val, "function");
 
 /**
  * Checks if a value is an object.
@@ -135,7 +183,7 @@ const isString = (val) => isTypeOf(val, "string");
  * isObject(1)
  * // => false
  */
-const isObject = (val) => !isNil(val) && (isTypeOf(val, "object") || isTypeOf(val, "function"));
+const isObject = (val) => isObjectLike(val) || isFunction(val);
 
 /**
  * Default {@link ILogger} class.
