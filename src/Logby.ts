@@ -1,4 +1,4 @@
-import { isObject, isString } from "lightdash";
+import { getName, isObject, isString } from "lightdash";
 import { appenderFn } from "./appender/appenderFn";
 import { appenderMap } from "./appender/appenderMap";
 import {
@@ -38,13 +38,9 @@ class Logby {
      * @returns The logger instance.
      */
     public getLogger(nameable: any): ILogger {
-        let name: string;
+        const name = getName(nameable);
 
-        if (isObject(nameable) && "name" in nameable) {
-            name = (<IAnyObject>nameable).name;
-        } else if (isString(nameable)) {
-            name = nameable;
-        } else {
+        if (name == null) {
             throw new TypeError(
                 `'${nameable}' is neither an INameable nor a string.`
             );
