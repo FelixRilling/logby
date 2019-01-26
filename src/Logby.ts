@@ -1,16 +1,12 @@
-import { getName, isObject, isString } from "lightdash";
+import { getName } from "lightdash";
 import { appenderFn } from "./appender/appenderFn";
 import { appenderMap } from "./appender/appenderMap";
-import {
-    DEFAULT_APPENDER_NAME,
-    defaultAppenderFn
-} from "./appender/defaultAppender";
+import { DEFAULT_APPENDER_NAME, defaultAppenderFn } from "./appender/defaultAppender";
 import { ILevel } from "./level/ILevel";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
 import { ILogger } from "./logger/ILogger";
 import { loggerMap } from "./logger/loggerMap";
-import { IAnyObject } from "lightdash/types/obj/lib/IAnyObject";
 
 /**
  * Main logby class.
@@ -74,6 +70,7 @@ class Logby {
         this.level = level;
     }
 
+    // noinspection JSUnusedGlobalSymbols
     /**
      * Attaches an appender to the instance.
      *
@@ -84,6 +81,7 @@ class Logby {
         this.appenders.set(name, fn);
     }
 
+    // noinspection JSUnusedGlobalSymbols
     /**
      * Detaches an appender.
      *

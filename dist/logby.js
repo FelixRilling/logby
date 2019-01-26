@@ -365,6 +365,7 @@ var logby = (function (exports) {
         setLevel(level) {
             this.level = level;
         }
+        // noinspection JSUnusedGlobalSymbols
         /**
          * Attaches an appender to the instance.
          *
@@ -374,6 +375,7 @@ var logby = (function (exports) {
         attachAppender(name, fn) {
             this.appenders.set(name, fn);
         }
+        // noinspection JSUnusedGlobalSymbols
         /**
          * Detaches an appender.
          *

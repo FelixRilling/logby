@@ -362,6 +362,7 @@ class Logby {
     setLevel(level) {
         this.level = level;
     }
+    // noinspection JSUnusedGlobalSymbols
     /**
      * Attaches an appender to the instance.
      *
@@ -371,6 +372,7 @@ class Logby {
     attachAppender(name, fn) {
         this.appenders.set(name, fn);
     }
+    // noinspection JSUnusedGlobalSymbols
     /**
      * Detaches an appender.
      *
