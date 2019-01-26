@@ -186,6 +186,65 @@ const isFunction = (val) => isTypeOf(val, "function");
 const isObject = (val) => isObjectLike(val) || isFunction(val);
 
 /**
+ * Checks if a value is a symbol.
+ *
+ * @memberof Is
+ * @since 1.0.0
+ * @param {any} val Value to check.
+ * @returns {boolean} If the value is a symbol.
+ * @example
+ * isSymbol(Symbol())
+ * // => true
+ *
+ * isSymbol(Symbol.split)
+ * // => true
+ *
+ * isSymbol("foo")
+ * // => false
+ */
+const isSymbol = (val) => isTypeOf(val, "symbol");
+
+/**
+ * Gets name of a value.
+ *
+ * If the value has a name or description property, the value of that is returned.
+ * If the value is a string, it is returned as is.
+ * Otherwise null is returned.
+ *
+ * @memberof Get
+ * @since 10.2.0
+ * @param {any} val Value to check.
+ * @returns {string} The name of the value.
+ * @example
+ * getName(class Foo{})
+ * // => "Foo"
+ *
+ * getName(function bar(){})
+ * // => "bar"
+ *
+ * getName(Symbol("abc"))
+ * // => "abc"
+ *
+ * getName("foo")
+ * // => "foo"
+ *
+ * getName(1)
+ * // => null
+ */
+const getName = (val) => {
+    if (isString(val)) {
+        return val;
+    }
+    if (isObject(val) && !isNil(val.name)) {
+        return val.name;
+    }
+    if (isSymbol(val) && !isNil(val.description)) {
+        return val.description;
+    }
+    return null;
+};
+
+/**
  * Default {@link ILogger} class.
  *
  * @private
@@ -276,14 +335,8 @@ class Logby {
      * @returns The logger instance.
      */
     getLogger(nameable) {
-        let name;
-        if (isObject(nameable) && "name" in nameable) {
-            name = nameable.name;
-        }
-        else if (isString(nameable)) {
-            name = nameable;
-        }
-        else {
+        const name = getName(nameable);
+        if (name == null) {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
         if (this.loggers.has(name)) {
