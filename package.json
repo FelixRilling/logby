@@ -1,6 +1,6 @@
 {
     "name": "logby",
-    "version": "2.0.4",
+    "version": "3.0.0-0",
     "description": "A minimal TypeScript logger inspired by logback",
     "main": "./dist/logby.common.js",
     "module": "./dist/logby.esm.js",
