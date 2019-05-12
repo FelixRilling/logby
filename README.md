@@ -28,17 +28,15 @@ import { Logby, Levels } from "logby";
 const logby = new Logby();
 
 class Foo {
+    private static readonly logger = logby.getLogger(Foo);
 
-  private static readonly logger = logby.getLogger(Foo);
+    constructor() {
+        Foo.logger.info("Hello World!");
 
-  constructor(){
-    Foo.logger.info("Hello World!");
+        logby.level = Levels.ERROR;
 
-    logby.setLevel(Levels.ERROR);
-
-     Foo.logger.info("You can't see me.");
-  }
-
+        Foo.logger.info("You can't see me.");
+    }
 }
 ```
 
@@ -47,24 +45,24 @@ class Foo {
 Appenders can be attached and detached from Logby instances:
 
 ```typescript
-import { Logby, Levels, ILevel, DEFAULT_APPENDER_NAME } from "logby";
+import { Logby, ILevel, defaultLoggingAppender } from "logby";
 
 const logby = new Logby();
 
 /*
-* Detach the built-in appender and attach our own.
-*/
-logby.detachAppender(DEFAULT_APPENDER_NAME);
-logby.attachAppender("myAppender", (level: ILevel, name: string, args: any[]) => console.log(args));
+ * Detach the built-in appender and attach our own.
+ */
+logby.appenders.remove(defaultLoggingAppender);
+logby.appenders.add((level: ILevel, name: string, args: any[]) =>
+    console.log(args)
+);
 
 class Foo {
+    private static readonly logger = logby.getLogger(Foo);
 
-  private static readonly logger = logby.getLogger(Foo);
-
-  constructor(){
-    Foo.logger.info("Hello World!");
-  }
-
+    constructor() {
+        Foo.logger.info("Hello World!");
+    }
 }
 ```
 
@@ -78,5 +76,3 @@ class Foo {
 | 2   | Info  |
 | 3   | Debug |
 | 4   | Trace |
-
-

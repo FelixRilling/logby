@@ -12,6 +12,16 @@ interface ILogger {
     debug(...args: any[]): void;
 
     trace(...args: any[]): void;
+
+    isError(): boolean;
+
+    isWarn(): boolean;
+
+    isInfo(): boolean;
+
+    isDebug(): boolean;
+
+    isTrace(): boolean;
 }
 
 export { ILogger };

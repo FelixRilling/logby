@@ -32,11 +32,20 @@ const Levels = {
 };
 
 /**
+ * Helper method for creating log entry prefix.
+ *
+ * @private
+ * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
+ * @returns Log entry prefix.
+ */
+const createDefaultLogPrefix = (name, level) => `${new Date().toISOString()} ${level.name} ${name}`;
+/**
  * Default appender-fn, doing the actual logging.
  *
  * @public
- * @param level Level of the entry to log.
  * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
  * @param args Arguments to log.
  */
 const defaultLoggingAppender = (name, level, args) => {
@@ -53,7 +62,7 @@ const defaultLoggingAppender = (name, level, args) => {
         // tslint:disable-next-line
         loggerFn = console.info;
     }
-    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+    loggerFn(createDefaultLogPrefix(name, level), ...args);
 };
 
 /**
@@ -66,6 +75,16 @@ const defaultLoggingAppender = (name, level, args) => {
 const createDelegatingAppender = (target) => (name, level, args) => target.appenders.forEach(fn => fn(name, level, args));
 
 /**
+ * Checks if the given level is considered part of the active level.
+ *
+ * @private
+ * @param incoming Level to check.
+ * @param active level to check against.
+ * @returns if the given level matches the active level.
+ */
+const matchesLevel = (incoming, active) => incoming.val <= active.val;
+
+/**
  * Default {@link ILogger} class.
  *
  * @private
@@ -75,6 +94,7 @@ class DefaultLogger {
      * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}.
      *
+     * @public
      * @param root Root logger of this logger.
      * @param name Name of the logger.
      */
@@ -85,6 +105,7 @@ class DefaultLogger {
     /**
      * Logs a message.
      *
+     * @public
      * @param level Levels of the log.
      * @param args Arguments to be logged.
      */
@@ -96,6 +117,7 @@ class DefaultLogger {
     /**
      * Logs an error.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     error(...args) {
@@ -104,6 +126,7 @@ class DefaultLogger {
     /**
      * Logs a warning.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     warn(...args) {
@@ -112,6 +135,7 @@ class DefaultLogger {
     /**
      * Logs an info.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     info(...args) {
@@ -120,6 +144,7 @@ class DefaultLogger {
     /**
      * Logs a debug message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     debug(...args) {
@@ -128,10 +153,56 @@ class DefaultLogger {
     /**
      * Logs a trace message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     trace(...args) {
         this.log(Levels.TRACE, ...args);
+    }
+    /**
+     * Checks if the currently set log level includes error logging.
+     *
+     * @public
+     * @returns if the currently set log level includes error logging.
+     */
+    isError() {
+        return matchesLevel(Levels.ERROR, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes warning logging.
+     *
+     * @public
+     * @returns if the currently set log level includes warning logging.
+     */
+    isWarn() {
+        return matchesLevel(Levels.WARN, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes info logging.
+     *
+     * @public
+     * @returns if the currently set log level includes info logging.
+     */
+    isInfo() {
+        return matchesLevel(Levels.INFO, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes debug logging.
+     *
+     * @public
+     * @returns if the currently set log level includes debug logging.
+     */
+    isDebug() {
+        return matchesLevel(Levels.DEBUG, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes trace logging.
+     *
+     * @public
+     * @returns if the currently set log level includes trace logging.
+     */
+    isTrace() {
+        return matchesLevel(Levels.TRACE, this.root.level);
     }
 }
 

@@ -3,11 +3,21 @@ import { Levels } from "../level/Levels";
 import { appenderFn } from "./appenderFn";
 
 /**
+ * Helper method for creating log entry prefix.
+ *
+ * @private
+ * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
+ * @returns Log entry prefix.
+ */
+const createDefaultLogPrefix = (name: string, level: ILevel) => `${new Date().toISOString()} ${level.name} ${name}`;
+
+/**
  * Default appender-fn, doing the actual logging.
  *
  * @public
- * @param level Level of the entry to log.
  * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
  * @param args Arguments to log.
  */
 const defaultLoggingAppender: appenderFn = (
@@ -28,7 +38,7 @@ const defaultLoggingAppender: appenderFn = (
         loggerFn = console.info;
     }
 
-    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+    loggerFn(createDefaultLogPrefix(name, level), ...args);
 };
 
-export { defaultLoggingAppender };
+export { defaultLoggingAppender, createDefaultLogPrefix };

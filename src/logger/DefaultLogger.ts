@@ -2,6 +2,7 @@ import { ILevel } from "../level/ILevel";
 import { Levels } from "../level/Levels";
 import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
+import { matchesLevel } from "../level/matchesLevel";
 
 /**
  * Default {@link ILogger} class.
@@ -16,6 +17,7 @@ class DefaultLogger implements ILogger {
      * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}.
      *
+     * @public
      * @param root Root logger of this logger.
      * @param name Name of the logger.
      */
@@ -27,6 +29,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs a message.
      *
+     * @public
      * @param level Levels of the log.
      * @param args Arguments to be logged.
      */
@@ -39,6 +42,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs an error.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     public error(...args: any[]) {
@@ -48,6 +52,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs a warning.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     public warn(...args: any[]) {
@@ -57,6 +62,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs an info.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     public info(...args: any[]) {
@@ -66,6 +72,7 @@ class DefaultLogger implements ILogger {
     /**
      * Logs a debug message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     public debug(...args: any[]) {
@@ -75,10 +82,61 @@ class DefaultLogger implements ILogger {
     /**
      * Logs a trace message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     public trace(...args: any[]) {
         this.log(Levels.TRACE, ...args);
+    }
+
+    /**
+     * Checks if the currently set log level includes error logging.
+     *
+     * @public
+     * @returns if the currently set log level includes error logging.
+     */
+    public isError(): boolean {
+        return matchesLevel(Levels.ERROR, this.root.level);
+    }
+
+    /**
+     * Checks if the currently set log level includes warning logging.
+     *
+     * @public
+     * @returns if the currently set log level includes warning logging.
+     */
+    public isWarn(): boolean {
+        return matchesLevel(Levels.WARN, this.root.level);
+    }
+
+    /**
+     * Checks if the currently set log level includes info logging.
+     *
+     * @public
+     * @returns if the currently set log level includes info logging.
+     */
+    public isInfo(): boolean {
+        return matchesLevel(Levels.INFO, this.root.level);
+    }
+
+    /**
+     * Checks if the currently set log level includes debug logging.
+     *
+     * @public
+     * @returns if the currently set log level includes debug logging.
+     */
+    public isDebug(): boolean {
+        return matchesLevel(Levels.DEBUG, this.root.level);
+    }
+
+    /**
+     * Checks if the currently set log level includes trace logging.
+     *
+     * @public
+     * @returns if the currently set log level includes trace logging.
+     */
+    public isTrace(): boolean {
+        return matchesLevel(Levels.TRACE, this.root.level);
     }
 }
 

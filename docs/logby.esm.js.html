@@ -26,7 +26,7 @@
 
 <nav >
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#attachAppender">attachAppender</a></li><li data-type='method'><a href="Logby.html#detachAppender">detachAppender</a></li><li data-type='method'><a href="Logby.html#getAppenders">getAppenders</a></li><li data-type='method'><a href="Logby.html#getLevel">getLevel</a></li><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li><li data-type='method'><a href="Logby.html#setLevel">setLevel</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#DEFAULT_APPENDER_NAME">DEFAULT_APPENDER_NAME</a></li><li><a href="global.html#Levels">Levels</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="DefaultLogger.html">DefaultLogger</a><ul class='methods'><li data-type='method'><a href="DefaultLogger.html#debug">debug</a></li><li data-type='method'><a href="DefaultLogger.html#error">error</a></li><li data-type='method'><a href="DefaultLogger.html#info">info</a></li><li data-type='method'><a href="DefaultLogger.html#isDebug">isDebug</a></li><li data-type='method'><a href="DefaultLogger.html#isError">isError</a></li><li data-type='method'><a href="DefaultLogger.html#isInfo">isInfo</a></li><li data-type='method'><a href="DefaultLogger.html#isTrace">isTrace</a></li><li data-type='method'><a href="DefaultLogger.html#isWarn">isWarn</a></li><li data-type='method'><a href="DefaultLogger.html#log">log</a></li><li data-type='method'><a href="DefaultLogger.html#trace">trace</a></li><li data-type='method'><a href="DefaultLogger.html#warn">warn</a></li></ul></li><li><a href="Logby.html">Logby</a><ul class='methods'><li data-type='method'><a href="Logby.html#getLogger">getLogger</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#createDelegatingAppender">createDelegatingAppender</a></li><li><a href="global.html#defaultLoggingAppender">defaultLoggingAppender</a></li><li><a href="global.html#Levels">Levels</a></li></ul>
 </nav>
 
 <div id="main">
@@ -75,18 +75,23 @@ const Levels = {
 };
 
 /**
- * Name of the default appenderFn, can be used to detach it.
+ * Helper method for creating log entry prefix.
+ *
+ * @private
+ * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
+ * @returns Log entry prefix.
  */
-const DEFAULT_APPENDER_NAME = "defaultAppender";
+const createDefaultLogPrefix = (name, level) => `${new Date().toISOString()} ${level.name} ${name}`;
 /**
  * Default appender-fn, doing the actual logging.
  *
- * @private
- * @param level Level of the entry to log.
+ * @public
  * @param name Name of the logger instance.
+ * @param level Level of the entry to log.
  * @param args Arguments to log.
  */
-const defaultAppenderFn = (level, name, args) => {
+const defaultLoggingAppender = (name, level, args) => {
     let loggerFn = console.log;
     if (level === Levels.ERROR) {
         // tslint:disable-next-line
@@ -100,8 +105,27 @@ const defaultAppenderFn = (level, name, args) => {
         // tslint:disable-next-line
         loggerFn = console.info;
     }
-    loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
+    loggerFn(createDefaultLogPrefix(name, level), ...args);
 };
+
+/**
+ * Appender delegating all invocations to the given other {@link Logby} instance.
+ *
+ * @public
+ * @param target Logby instance to delegate to.
+ * @returns A delegating appender delegating to the given target.
+ */
+const createDelegatingAppender = (target) => (name, level, args) => target.appenders.forEach(fn => fn(name, level, args));
+
+/**
+ * Checks if the given level is considered part of the active level.
+ *
+ * @private
+ * @param incoming Level to check.
+ * @param active level to check against.
+ * @returns if the given level matches the active level.
+ */
+const matchesLevel = (incoming, active) => incoming.val &lt;= active.val;
 
 /**
  * Default {@link ILogger} class.
@@ -113,6 +137,7 @@ class DefaultLogger {
      * Creates a new {@link DefaultLogger}.
      * Should not be constructed directly, rather use {@link Logby.getLogger}.
      *
+     * @public
      * @param root Root logger of this logger.
      * @param name Name of the logger.
      */
@@ -123,17 +148,19 @@ class DefaultLogger {
     /**
      * Logs a message.
      *
+     * @public
      * @param level Levels of the log.
      * @param args Arguments to be logged.
      */
     log(level, ...args) {
-        if (this.root.getLevel().val >= level.val) {
-            this.root.getAppenders().forEach(fn => fn(level, this.name, args));
+        if (this.root.level.val >= level.val) {
+            this.root.appenders.forEach(fn => fn(this.name, level, args));
         }
     }
     /**
      * Logs an error.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     error(...args) {
@@ -142,6 +169,7 @@ class DefaultLogger {
     /**
      * Logs a warning.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     warn(...args) {
@@ -150,6 +178,7 @@ class DefaultLogger {
     /**
      * Logs an info.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     info(...args) {
@@ -158,6 +187,7 @@ class DefaultLogger {
     /**
      * Logs a debug message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     debug(...args) {
@@ -166,10 +196,56 @@ class DefaultLogger {
     /**
      * Logs a trace message.
      *
+     * @public
      * @param args Arguments to be logged.
      */
     trace(...args) {
         this.log(Levels.TRACE, ...args);
+    }
+    /**
+     * Checks if the currently set log level includes error logging.
+     *
+     * @public
+     * @returns if the currently set log level includes error logging.
+     */
+    isError() {
+        return matchesLevel(Levels.ERROR, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes warning logging.
+     *
+     * @public
+     * @returns if the currently set log level includes warning logging.
+     */
+    isWarn() {
+        return matchesLevel(Levels.WARN, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes info logging.
+     *
+     * @public
+     * @returns if the currently set log level includes info logging.
+     */
+    isInfo() {
+        return matchesLevel(Levels.INFO, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes debug logging.
+     *
+     * @public
+     * @returns if the currently set log level includes debug logging.
+     */
+    isDebug() {
+        return matchesLevel(Levels.DEBUG, this.root.level);
+    }
+    /**
+     * Checks if the currently set log level includes trace logging.
+     *
+     * @public
+     * @returns if the currently set log level includes trace logging.
+     */
+    isTrace() {
+        return matchesLevel(Levels.TRACE, this.root.level);
     }
 }
 
@@ -182,9 +258,7 @@ class Logby {
      */
     constructor() {
         this.loggers = new Map();
-        this.appenders = new Map([
-            [DEFAULT_APPENDER_NAME, defaultAppenderFn]
-        ]);
+        this.appenders = new Set([defaultLoggingAppender]);
         this.level = Levels.INFO;
     }
     /**
@@ -198,59 +272,15 @@ class Logby {
         if (name == null) {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
-        if (this.loggers.has(name)) {
-            return this.loggers.get(name);
+        if (!this.loggers.has(name)) {
+            const logger = new DefaultLogger(this, name);
+            this.loggers.set(name, logger);
         }
-        const logger = new DefaultLogger(this, name);
-        this.loggers.set(name, logger);
-        return logger;
-    }
-    /**
-     * Gets the active log level.
-     *
-     * @return The active log level.
-     */
-    getLevel() {
-        return this.level;
-    }
-    /**
-     * Sets the active log level.
-     *
-     * @param level Level to set.
-     */
-    setLevel(level) {
-        this.level = level;
-    }
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Attaches an appender to the instance.
-     *
-     * @param name Name of the appender.
-     * @param fn Appender function.
-     */
-    attachAppender(name, fn) {
-        this.appenders.set(name, fn);
-    }
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Detaches an appender.
-     *
-     * @param name Name of the appender.
-     */
-    detachAppender(name) {
-        this.appenders.delete(name);
-    }
-    /**
-     * Gets all active appenders.
-     *
-     * @return All active appenders.
-     */
-    getAppenders() {
-        return this.appenders;
+        return this.loggers.get(name);
     }
 }
 
-export { DEFAULT_APPENDER_NAME, Levels, Logby, defaultAppenderFn };
+export { Levels, Logby, createDelegatingAppender, defaultLoggingAppender };
 </code></pre>
         </article>
     </section>
@@ -265,7 +295,7 @@ export { DEFAULT_APPENDER_NAME, Levels, Logby, defaultAppenderFn };
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.1</a> on Sun May 12 2019 12:54:17 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.1</a> on Sun May 12 2019 13:47:40 GMT+0200 (Central European Summer Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
