@@ -1,7 +1,7 @@
 import { getName } from "lightdash";
 import { appenderFn } from "./appender/appenderFn";
-import { appenderMap } from "./appender/appenderMap";
-import { DEFAULT_APPENDER_NAME, defaultAppenderFn } from "./appender/defaultAppender";
+import { appenderList } from "./appender/appenderList";
+import { defaultLoggingAppender } from "./appender/defaultLoggingAppender";
 import { ILevel } from "./level/ILevel";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
@@ -12,18 +12,16 @@ import { loggerMap } from "./logger/loggerMap";
  * Main logby class.
  */
 class Logby {
+    public readonly appenders: appenderList;
+    public level: ILevel;
     private readonly loggers: loggerMap;
-    private readonly appenders: appenderMap;
-    private level: ILevel;
 
     /**
      * Creates a new Logby instance.
      */
     constructor() {
         this.loggers = new Map<string, ILogger>();
-        this.appenders = new Map<string, appenderFn>([
-            [DEFAULT_APPENDER_NAME, defaultAppenderFn]
-        ]);
+        this.appenders = new Set<appenderFn>([defaultLoggingAppender]);
         this.level = Levels.INFO;
     }
 
@@ -42,62 +40,12 @@ class Logby {
             );
         }
 
-        if (this.loggers.has(name)) {
-            return this.loggers.get(name)!;
+        if (!this.loggers.has(name)) {
+            const logger = new DefaultLogger(this, name);
+            this.loggers.set(name, logger);
         }
 
-        const logger = new DefaultLogger(this, name);
-        this.loggers.set(name, logger);
-
-        return logger;
-    }
-
-    /**
-     * Gets the active log level.
-     *
-     * @return The active log level.
-     */
-    public getLevel(): ILevel {
-        return this.level;
-    }
-
-    /**
-     * Sets the active log level.
-     *
-     * @param level Level to set.
-     */
-    public setLevel(level: ILevel) {
-        this.level = level;
-    }
-
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Attaches an appender to the instance.
-     *
-     * @param name Name of the appender.
-     * @param fn Appender function.
-     */
-    public attachAppender(name: string, fn: appenderFn): void {
-        this.appenders.set(name, fn);
-    }
-
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Detaches an appender.
-     *
-     * @param name Name of the appender.
-     */
-    public detachAppender(name: string): void {
-        this.appenders.delete(name);
-    }
-
-    /**
-     * Gets all active appenders.
-     *
-     * @return All active appenders.
-     */
-    public getAppenders(): appenderMap {
-        return this.appenders;
+        return this.loggers.get(name)!;
     }
 }
 

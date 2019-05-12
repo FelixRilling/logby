@@ -32,10 +32,6 @@ const Levels = {
 };
 
 /**
- * Name of the default appenderFn, can be used to detach it.
- */
-const DEFAULT_APPENDER_NAME = "defaultAppender";
-/**
  * Default appender-fn, doing the actual logging.
  *
  * @private
@@ -43,7 +39,7 @@ const DEFAULT_APPENDER_NAME = "defaultAppender";
  * @param name Name of the logger instance.
  * @param args Arguments to log.
  */
-const defaultAppenderFn = (level, name, args) => {
+const defaultLoggingAppender = (name, level, args) => {
     let loggerFn = console.log;
     if (level === Levels.ERROR) {
         // tslint:disable-next-line
@@ -84,8 +80,8 @@ class DefaultLogger {
      * @param args Arguments to be logged.
      */
     log(level, ...args) {
-        if (this.root.getLevel().val >= level.val) {
-            this.root.getAppenders().forEach(fn => fn(level, this.name, args));
+        if (this.root.level.val >= level.val) {
+            this.root.appenders.forEach(fn => fn(this.name, level, args));
         }
     }
     /**
@@ -139,9 +135,7 @@ class Logby {
      */
     constructor() {
         this.loggers = new Map();
-        this.appenders = new Map([
-            [DEFAULT_APPENDER_NAME, defaultAppenderFn]
-        ]);
+        this.appenders = new Set([defaultLoggingAppender]);
         this.level = Levels.INFO;
     }
     /**
@@ -155,56 +149,12 @@ class Logby {
         if (name == null) {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
-        if (this.loggers.has(name)) {
-            return this.loggers.get(name);
+        if (!this.loggers.has(name)) {
+            const logger = new DefaultLogger(this, name);
+            this.loggers.set(name, logger);
         }
-        const logger = new DefaultLogger(this, name);
-        this.loggers.set(name, logger);
-        return logger;
-    }
-    /**
-     * Gets the active log level.
-     *
-     * @return The active log level.
-     */
-    getLevel() {
-        return this.level;
-    }
-    /**
-     * Sets the active log level.
-     *
-     * @param level Level to set.
-     */
-    setLevel(level) {
-        this.level = level;
-    }
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Attaches an appender to the instance.
-     *
-     * @param name Name of the appender.
-     * @param fn Appender function.
-     */
-    attachAppender(name, fn) {
-        this.appenders.set(name, fn);
-    }
-    // noinspection JSUnusedGlobalSymbols
-    /**
-     * Detaches an appender.
-     *
-     * @param name Name of the appender.
-     */
-    detachAppender(name) {
-        this.appenders.delete(name);
-    }
-    /**
-     * Gets all active appenders.
-     *
-     * @return All active appenders.
-     */
-    getAppenders() {
-        return this.appenders;
+        return this.loggers.get(name);
     }
 }
 
-export { DEFAULT_APPENDER_NAME, Levels, Logby, defaultAppenderFn };
+export { Levels, Logby, defaultLoggingAppender };

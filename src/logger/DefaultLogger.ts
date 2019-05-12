@@ -31,8 +31,8 @@ class DefaultLogger implements ILogger {
      * @param args Arguments to be logged.
      */
     public log(level: ILevel, ...args: any[]) {
-        if (this.root.getLevel().val >= level.val) {
-            this.root.getAppenders().forEach(fn => fn(level, this.name, args));
+        if (this.root.level.val >= level.val) {
+            this.root.appenders.forEach(fn => fn(this.name, level, args));
         }
     }
 

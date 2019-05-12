@@ -3,11 +3,6 @@ import { Levels } from "../level/Levels";
 import { appenderFn } from "./appenderFn";
 
 /**
- * Name of the default appenderFn, can be used to detach it.
- */
-const DEFAULT_APPENDER_NAME = "defaultAppender";
-
-/**
  * Default appender-fn, doing the actual logging.
  *
  * @private
@@ -15,9 +10,9 @@ const DEFAULT_APPENDER_NAME = "defaultAppender";
  * @param name Name of the logger instance.
  * @param args Arguments to log.
  */
-const defaultAppenderFn: appenderFn = (
-    level: ILevel,
+const defaultLoggingAppender: appenderFn = (
     name: string,
+    level: ILevel,
     args: any[]
 ) => {
     let loggerFn = console.log;
@@ -36,4 +31,4 @@ const defaultAppenderFn: appenderFn = (
     loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 };
 
-export { DEFAULT_APPENDER_NAME, defaultAppenderFn };
+export { defaultLoggingAppender };
