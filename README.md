@@ -52,7 +52,7 @@ const logby = new Logby();
 /*
  * Detach the built-in appender and attach our own.
  */
-logby.appenders.remove(defaultLoggingAppender);
+logby.appenders.delete(defaultLoggingAppender);
 logby.appenders.add((level: ILevel, name: string, args: any[]) =>
     console.log(args)
 );
@@ -68,11 +68,11 @@ class Foo {
 
 ### Built-in Levels
 
-| Val | Name  |
-| --- | ----- |
-| -1  | None  |
-| 0   | Error |
-| 1   | Warn  |
-| 2   | Info  |
-| 3   | Debug |
-| 4   | Trace |
+| Name  | Val |
+| ----- | --- |
+| None  | -1  |
+| Error | 0   |
+| Warn  | 1   |
+| Info  | 2   |
+| Debug | 3   |
+| Trace | 4   |

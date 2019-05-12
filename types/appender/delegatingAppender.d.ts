@@ -5,7 +5,8 @@ import { appenderFn } from "./appenderFn";
  *
  * @public
  * @param target Logby instance to delegate to.
+ * @param nameProducer Function for calculating the new internal logger name.
  * @returns A delegating appender delegating to the given target.
  */
-declare const createDelegatingAppender: (target: Logby) => appenderFn;
+declare const createDelegatingAppender: (target: Logby, nameProducer?: (name: string) => string) => appenderFn;
 export { createDelegatingAppender };

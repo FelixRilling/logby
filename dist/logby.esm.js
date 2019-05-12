@@ -65,14 +65,16 @@ const defaultLoggingAppender = (name, level, args) => {
     loggerFn(createDefaultLogPrefix(name, level), ...args);
 };
 
+const defaultDelegationNameProducer = (name) => `${name} (Delegated)`;
 /**
  * Appender delegating all invocations to the given other {@link Logby} instance.
  *
  * @public
  * @param target Logby instance to delegate to.
+ * @param nameProducer Function for calculating the new internal logger name.
  * @returns A delegating appender delegating to the given target.
  */
-const createDelegatingAppender = (target) => (name, level, args) => target.appenders.forEach(fn => fn(name, level, args));
+const createDelegatingAppender = (target, nameProducer = defaultDelegationNameProducer) => (name, level, args) => target.getLogger(nameProducer(name)).log(level, ...args);
 
 /**
  * Checks if the given level is considered part of the active level.
