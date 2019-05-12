@@ -207,4 +207,4 @@ class Logby {
     }
 }
 
-export { Levels, Logby, DEFAULT_APPENDER_NAME, defaultAppenderFn };
+export { DEFAULT_APPENDER_NAME, Levels, Logby, defaultAppenderFn };

@@ -211,7 +211,7 @@ class Logby {
     }
 }
 
+exports.DEFAULT_APPENDER_NAME = DEFAULT_APPENDER_NAME;
 exports.Levels = Levels;
 exports.Logby = Logby;
-exports.DEFAULT_APPENDER_NAME = DEFAULT_APPENDER_NAME;
 exports.defaultAppenderFn = defaultAppenderFn;
