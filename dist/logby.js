@@ -35,7 +35,7 @@ var logby = (function (exports) {
     /**
      * Default appender-fn, doing the actual logging.
      *
-     * @private
+     * @public
      * @param level Level of the entry to log.
      * @param name Name of the logger instance.
      * @param args Arguments to log.
@@ -56,6 +56,15 @@ var logby = (function (exports) {
         }
         loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
     };
+
+    /**
+     * Appender delegating all invocations to the given other {@link Logby} instance.
+     *
+     * @public
+     * @param target Logby instance to delegate to.
+     * @returns A delegating appender delegating to the given target.
+     */
+    const createDelegatingAppender = (target) => (name, level, args) => target.appenders.forEach(fn => fn(name, level, args));
 
     // File is named "_index.ts" to avoid it being treated as a module index file.
 
@@ -346,6 +355,7 @@ var logby = (function (exports) {
 
     exports.Levels = Levels;
     exports.Logby = Logby;
+    exports.createDelegatingAppender = createDelegatingAppender;
     exports.defaultLoggingAppender = defaultLoggingAppender;
 
     return exports;

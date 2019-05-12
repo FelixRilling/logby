@@ -1,3 +1,3 @@
 import { ILevel } from "../level/ILevel";
-declare type appenderFn = (level: ILevel, name: string, args: any[]) => void;
+declare type appenderFn = (name: string, level: ILevel, args: any[]) => void;
 export { appenderFn };

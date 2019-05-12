@@ -34,7 +34,7 @@ const Levels = {
 /**
  * Default appender-fn, doing the actual logging.
  *
- * @private
+ * @public
  * @param level Level of the entry to log.
  * @param name Name of the logger instance.
  * @param args Arguments to log.
@@ -55,6 +55,15 @@ const defaultLoggingAppender = (name, level, args) => {
     }
     loggerFn(`${new Date().toISOString()} ${level.name} ${name}`, ...args);
 };
+
+/**
+ * Appender delegating all invocations to the given other {@link Logby} instance.
+ *
+ * @public
+ * @param target Logby instance to delegate to.
+ * @returns A delegating appender delegating to the given target.
+ */
+const createDelegatingAppender = (target) => (name, level, args) => target.appenders.forEach(fn => fn(name, level, args));
 
 /**
  * Default {@link ILogger} class.
@@ -157,4 +166,4 @@ class Logby {
     }
 }
 
-export { Levels, Logby, defaultLoggingAppender };
+export { Levels, Logby, createDelegatingAppender, defaultLoggingAppender };

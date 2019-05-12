@@ -3,11 +3,11 @@ import { Logby } from "../src/Logby";
 
 describe("Logby IT", () => {
     it("IT", () => {
-        const loggerRoot = new Logby();
+        const logby = new Logby();
 
-        loggerRoot.level = Levels.TRACE;
+        logby.level = Levels.TRACE;
 
-        const logger = loggerRoot.getLogger("Test");
+        const logger = logby.getLogger("Test");
 
         const exampleBoolean = true;
         const exampleNumber = 123;
