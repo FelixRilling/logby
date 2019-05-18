@@ -1,6 +1,6 @@
 import { ILevels } from "./ILevels";
 /**
- * Default level-list.
+ * Default level-list. Can be used to set the level of a {@link Logby} instance.
  *
  * @public
  */

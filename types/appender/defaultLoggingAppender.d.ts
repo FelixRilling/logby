@@ -10,7 +10,7 @@ import { appenderFn } from "./appenderFn";
  */
 declare const createDefaultLogPrefix: (name: string, level: ILevel) => string;
 /**
- * Default appender-fn, doing the actual logging.
+ * Default appender, doing the actual logging.
  *
  * @public
  * @param name Name of the logger instance.

@@ -10,10 +10,11 @@ import { appenderFn } from "./appenderFn";
  * @param level Level of the entry to log.
  * @returns Log entry prefix.
  */
-const createDefaultLogPrefix = (name: string, level: ILevel) => `${new Date().toISOString()} ${level.name} ${name}`;
+const createDefaultLogPrefix = (name: string, level: ILevel) =>
+    `${new Date().toISOString()} ${level.name} ${name}`;
 
 /**
- * Default appender-fn, doing the actual logging.
+ * Default appender, doing the actual logging.
  *
  * @public
  * @param name Name of the logger instance.

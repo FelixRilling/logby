@@ -2,7 +2,7 @@ var logby = (function (exports) {
     'use strict';
 
     /**
-     * Default level-list.
+     * Default level-list. Can be used to set the level of a {@link Logby} instance.
      *
      * @public
      */
@@ -42,7 +42,7 @@ var logby = (function (exports) {
      */
     const createDefaultLogPrefix = (name, level) => `${new Date().toISOString()} ${level.name} ${name}`;
     /**
-     * Default appender-fn, doing the actual logging.
+     * Default appender, doing the actual logging.
      *
      * @public
      * @param name Name of the logger instance.
@@ -68,7 +68,8 @@ var logby = (function (exports) {
 
     const defaultDelegationNameProducer = (name) => `${name} (Delegated)`;
     /**
-     * Appender delegating all invocations to the given other {@link Logby} instance.
+     * Creates a new delegatingAppender for the given target.
+     * A delegatingAppender is an appender delegating all invocations to the given other {@link Logby} instance.
      *
      * @public
      * @param target Logby instance to delegate to.

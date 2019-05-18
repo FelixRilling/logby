@@ -1,7 +1,8 @@
 import { Logby } from "../Logby";
 import { appenderFn } from "./appenderFn";
 /**
- * Appender delegating all invocations to the given other {@link Logby} instance.
+ * Creates a new delegatingAppender for the given target.
+ * A delegatingAppender is an appender delegating all invocations to the given other {@link Logby} instance.
  *
  * @public
  * @param target Logby instance to delegate to.

@@ -6,6 +6,7 @@
 
 Logby is a TypeScript logger inspired by logger solutions from the Java world
 like [logback](https://logback.qos.ch/index.html) and [slf4j](https://www.slf4j.org/).
+Usable in both browser or Node.js based environments.
 
 **[Docs](https://felixrilling.github.io/logby/)**
 
@@ -65,6 +66,17 @@ class Foo {
     }
 }
 ```
+
+#### Built-in appenders
+
+##### defaultLoggingAppender
+
+Regular appender simply creating and logging a log entry.
+
+##### delegatingAppender
+
+Appender which delegates all invocations to the specified other logby instance.
+To create a new `delegatingAppender`, use the exported `createDelegatingAppender(target)` function.
 
 ### Built-in Levels
 

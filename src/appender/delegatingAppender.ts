@@ -5,7 +5,8 @@ import { appenderFn } from "./appenderFn";
 const defaultDelegationNameProducer = (name: string) => `${name} (Delegated)`;
 
 /**
- * Appender delegating all invocations to the given other {@link Logby} instance.
+ * Creates a new delegatingAppender for the given target.
+ * A delegatingAppender is an appender delegating all invocations to the given other {@link Logby} instance.
  *
  * @public
  * @param target Logby instance to delegate to.
@@ -15,6 +16,7 @@ const defaultDelegationNameProducer = (name: string) => `${name} (Delegated)`;
 const createDelegatingAppender = (
     target: Logby,
     nameProducer: (name: string) => string = defaultDelegationNameProducer
-): appenderFn => (name: string, level: ILevel, args: any[]) => target.getLogger(nameProducer(name)).log(level, ...args);
+): appenderFn => (name: string, level: ILevel, args: any[]) =>
+    target.getLogger(nameProducer(name)).log(level, ...args);
 
 export { createDelegatingAppender };

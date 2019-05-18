@@ -1,8 +1,8 @@
 import { ILevel } from "../level/ILevel";
 import { Levels } from "../level/Levels";
+import { matchesLevel } from "../level/matchesLevel";
 import { Logby } from "../Logby";
 import { ILogger } from "./ILogger";
-import { matchesLevel } from "../level/matchesLevel";
 
 /**
  * Default {@link ILogger} class.

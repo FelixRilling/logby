@@ -8,6 +8,7 @@ import { ILevel } from "./ILevel";
  * @param active level to check against.
  * @returns if the given level matches the active level.
  */
-const matchesLevel = (incoming: ILevel, active: ILevel): boolean => incoming.val <= active.val;
+const matchesLevel = (incoming: ILevel, active: ILevel): boolean =>
+    incoming.val <= active.val;
 
 export { matchesLevel };
