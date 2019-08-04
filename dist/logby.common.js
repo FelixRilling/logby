@@ -232,15 +232,15 @@ class Logby {
      * @returns The logger instance.
      */
     getLogger(nameable) {
-        const name = lightdash.getName(nameable);
-        if (name == null) {
+        const loggerName = lightdash.name(nameable);
+        if (loggerName == null) {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
-        if (!this.loggers.has(name)) {
-            const logger = new DefaultLogger(this, name);
-            this.loggers.set(name, logger);
+        if (!this.loggers.has(loggerName)) {
+            const logger = new DefaultLogger(this, loggerName);
+            this.loggers.set(loggerName, logger);
         }
-        return this.loggers.get(name);
+        return this.loggers.get(loggerName);
     }
 }
 

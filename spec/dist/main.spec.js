@@ -1,4 +1,6 @@
-import { name } from 'lightdash';
+'use strict';
+
+var lightdash = require('lightdash');
 
 /**
  * Default level-list. Can be used to set the level of a {@link Logby} instance.
@@ -64,18 +66,6 @@ const defaultLoggingAppender = (name, level, args) => {
     }
     loggerFn(createDefaultLogPrefix(name, level), ...args);
 };
-
-const defaultDelegationNameProducer = (name) => `${name} (Delegated)`;
-/**
- * Creates a new delegatingAppender for the given target.
- * A delegatingAppender is an appender delegating all invocations to the given other {@link Logby} instance.
- *
- * @public
- * @param target Logby instance to delegate to.
- * @param nameProducer Function for calculating the new internal logger name.
- * @returns A delegating appender delegating to the given target.
- */
-const createDelegatingAppender = (target, nameProducer = defaultDelegationNameProducer) => (name, level, args) => target.getLogger(nameProducer(name)).log(level, ...args);
 
 /**
  * Checks if the given level is considered part of the active level.
@@ -228,7 +218,7 @@ class Logby {
      * @returns The logger instance.
      */
     getLogger(nameable) {
-        const loggerName = name(nameable);
+        const loggerName = lightdash.name(nameable);
         if (loggerName == null) {
             throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
         }
@@ -240,4 +230,35 @@ class Logby {
     }
 }
 
-export { Levels, Logby, createDelegatingAppender, defaultLoggingAppender };
+describe("Logby", () => {
+    it("constructs", () => {
+        const logby = new Logby();
+        expect(logby.getLogger(Logby)).toBeDefined();
+        expect(logby.getLogger("Test")).toBeDefined();
+    });
+    it("caches instance", () => {
+        const logby = new Logby();
+        const loggerName = "fooBar";
+        const logger1 = logby.getLogger(loggerName);
+        const logger2 = logby.getLogger(loggerName);
+        expect(logger1).toBe(logger2);
+    });
+});
+
+describe("Logby IT", () => {
+    it("IT", () => {
+        const logby = new Logby();
+        logby.level = Levels.TRACE;
+        const logger = logby.getLogger("Test");
+        const exampleBoolean = true;
+        const exampleNumber = 123;
+        const exampleString = "Foo";
+        const exampleArr = [1, 2, 3];
+        const exampleObj = { a: 1 };
+        logger.trace(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.debug(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.info(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.warn(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+        logger.error(exampleBoolean, exampleNumber, exampleString, exampleArr, exampleObj);
+    });
+});

@@ -1,4 +1,4 @@
-import { getName } from "lightdash";
+import { name } from "lightdash";
 import { appenderFn } from "./appender/appenderFn";
 import { appenderList } from "./appender/appenderList";
 import { defaultLoggingAppender } from "./appender/defaultLoggingAppender";
@@ -32,20 +32,20 @@ class Logby {
      * @returns The logger instance.
      */
     public getLogger(nameable: any): ILogger {
-        const name = getName(nameable);
+        const loggerName = name(nameable);
 
-        if (name == null) {
+        if (loggerName == null) {
             throw new TypeError(
                 `'${nameable}' is neither an INameable nor a string.`
             );
         }
 
-        if (!this.loggers.has(name)) {
-            const logger = new DefaultLogger(this, name);
-            this.loggers.set(name, logger);
+        if (!this.loggers.has(loggerName)) {
+            const logger = new DefaultLogger(this, loggerName);
+            this.loggers.set(loggerName, logger);
         }
 
-        return this.loggers.get(name)!;
+        return this.loggers.get(loggerName)!;
     }
 }
 

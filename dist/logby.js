@@ -1,4 +1,4 @@
-var logby = (function (exports) {
+var logby = (function (exports, lightdash) {
     'use strict';
 
     /**
@@ -77,192 +77,6 @@ var logby = (function (exports) {
      * @returns A delegating appender delegating to the given target.
      */
     const createDelegatingAppender = (target, nameProducer = defaultDelegationNameProducer) => (name, level, args) => target.getLogger(nameProducer(name)).log(level, ...args);
-
-    // File is named "_index.ts" to avoid it being treated as a module index file.
-
-    /**
-     * Checks if the value has any of the given types.
-     * If at least one type gives back true, true is returned.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @param {...string} types Type strings to compare the value to.
-     * @returns {boolean} If the value has the type provided.
-     * @example
-     * isTypeOf("foo", "string")
-     * // => true
-     *
-     * isTypeOf("foo", "number", "string")
-     * // => true
-     *
-     * isTypeOf("foo", "number")
-     * // => false
-     */
-    const isTypeOf = (val, ...types) => types.some(type => typeof val === type);
-
-    /**
-     * Checks if a value is undefined or null.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @returns {boolean} If the value is nil.
-     * @example
-     * isNil(null)
-     * // => true
-     *
-     * isNil(undefined)
-     * // => true
-     *
-     * isNil(0)
-     * // => false
-     *
-     * isNil("")
-     * // => false
-     */
-    const isNil = (val) => val == null;
-
-    /**
-     * Checks if a value is not nil and has a type of object.
-     *
-     * The main difference to {@link isObject} is that functions are not considered object-like,
-     * because `typeof function(){}` returns `"function"`.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check,
-     * @returns {boolean} If the value is object-like.
-     * @example
-     * isObjectLike({})
-     * // => true
-     *
-     * isObjectLike([])
-     * // => true
-     *
-     * isObjectLike(() => 1))
-     * // => false
-     *
-     * isObjectLike(1)
-     * // => false
-     */
-    const isObjectLike = (val) => !isNil(val) && isTypeOf(val, "object");
-
-    /**
-     * Checks if a value is a string.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @returns {boolean} if the value is a string.
-     * @example
-     * isString("foo")
-     * // => true
-     *
-     * isString(1)
-     * // => false
-     */
-    const isString = (val) => isTypeOf(val, "string");
-
-    /**
-     * Checks if a value is a function.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @returns {boolean} If the value is a function.
-     * @example
-     * isFunction(function a(){})
-     * // => true
-     *
-     * isFunction(Array.from)
-     * // => true
-     *
-     * isFunction(null)
-     * // => false
-     */
-    const isFunction = (val) => isTypeOf(val, "function");
-
-    /**
-     * Checks if a value is an object.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @returns {boolean} If the value is an object.
-     * @example
-     * isObject({})
-     * // => true
-     *
-     * isObject([])
-     * // => true
-     *
-     * isObject(() => 1))
-     * // => true
-     *
-     * isObject(1)
-     * // => false
-     */
-    const isObject = (val) => isObjectLike(val) || isFunction(val);
-
-    /**
-     * Checks if a value is a symbol.
-     *
-     * @memberof Is
-     * @since 1.0.0
-     * @param {any} val Value to check.
-     * @returns {boolean} If the value is a symbol.
-     * @example
-     * isSymbol(Symbol())
-     * // => true
-     *
-     * isSymbol(Symbol.split)
-     * // => true
-     *
-     * isSymbol("foo")
-     * // => false
-     */
-    const isSymbol = (val) => isTypeOf(val, "symbol");
-
-    /**
-     * Gets name of a value.
-     *
-     * If the value has a name or description property, the value of that is returned.
-     * If the value is a string, it is returned as is.
-     * Otherwise null is returned.
-     *
-     * @memberof Get
-     * @since 10.2.0
-     * @param {any} val Value to check.
-     * @returns {string} The name of the value.
-     * @example
-     * getName(class Foo{})
-     * // => "Foo"
-     *
-     * getName(function bar(){})
-     * // => "bar"
-     *
-     * getName(Symbol("abc"))
-     * // => "abc"
-     *
-     * getName("foo")
-     * // => "foo"
-     *
-     * getName(1)
-     * // => null
-     */
-    const getName = (val) => {
-        if (isString(val)) {
-            return val;
-        }
-        if (isObject(val) && !isNil(val.name)) {
-            return val.name;
-        }
-        if (isSymbol(val) && !isNil(val.description)) {
-            return val.description;
-        }
-        return null;
-    };
 
     /**
      * Checks if the given level is considered part of the active level.
@@ -415,15 +229,15 @@ var logby = (function (exports) {
          * @returns The logger instance.
          */
         getLogger(nameable) {
-            const name = getName(nameable);
-            if (name == null) {
+            const loggerName = lightdash.name(nameable);
+            if (loggerName == null) {
                 throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
             }
-            if (!this.loggers.has(name)) {
-                const logger = new DefaultLogger(this, name);
-                this.loggers.set(name, logger);
+            if (!this.loggers.has(loggerName)) {
+                const logger = new DefaultLogger(this, loggerName);
+                this.loggers.set(loggerName, logger);
             }
-            return this.loggers.get(name);
+            return this.loggers.get(loggerName);
         }
     }
 
@@ -434,5 +248,5 @@ var logby = (function (exports) {
 
     return exports;
 
-}({}));
+}({}, l_));
 //# sourceMappingURL=logby.js.map
