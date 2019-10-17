@@ -1,7 +1,7 @@
 import { Levels } from "../level/Levels";
 import { matchesLevel } from "../level/matchesLevel";
 /**
- * Default {@link ILogger} class.
+ * Default {@link Logger} class.
  *
  * @private
  */

@@ -1,12 +1,12 @@
-import { appenderList } from "./appender/appenderList";
-import { ILevel } from "./level/ILevel";
-import { ILogger } from "./logger/ILogger";
+import { AppenderList } from "./appender/AppenderList";
+import { Level } from "./level/Level";
+import { Logger } from "./logger/Logger";
 /**
  * Main logby class.
  */
 declare class Logby {
-    readonly appenders: appenderList;
-    level: ILevel;
+    readonly appenders: AppenderList;
+    level: Level;
     private readonly loggers;
     /**
      * Creates a new Logby instance.
@@ -18,7 +18,7 @@ declare class Logby {
      * @param nameable String or INameable (ex: named class or named function).
      * @returns The logger instance.
      */
-    getLogger(nameable: any): ILogger;
+    getLogger(nameable: any): Logger;
 }
 export { Logby };
 //# sourceMappingURL=Logby.d.ts.map

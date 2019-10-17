@@ -1,4 +1,4 @@
-import { ILevel } from "./ILevel";
+import { Level } from "./Level";
 
 /**
  * Checks if the given level is considered part of the active level.
@@ -8,7 +8,7 @@ import { ILevel } from "./ILevel";
  * @param active level to check against.
  * @returns if the given level matches the active level.
  */
-const matchesLevel = (incoming: ILevel, active: ILevel): boolean =>
+const matchesLevel = (incoming: Level, active: Level): boolean =>
     incoming.val <= active.val;
 
 export { matchesLevel };

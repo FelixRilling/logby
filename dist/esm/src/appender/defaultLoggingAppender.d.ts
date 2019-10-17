@@ -1,5 +1,5 @@
-import { ILevel } from "../level/ILevel";
-import { appenderFn } from "./appenderFn";
+import { Level } from "../level/Level";
+import { AppenderFn } from "./AppenderFn";
 /**
  * Helper method for creating log entry prefix.
  *
@@ -8,7 +8,7 @@ import { appenderFn } from "./appenderFn";
  * @param level Level of the entry to log.
  * @returns Log entry prefix.
  */
-declare const createDefaultLogPrefix: (name: string, level: ILevel) => string;
+declare const createDefaultLogPrefix: (name: string, level: Level) => string;
 /**
  * Default appender, doing the actual logging.
  *
@@ -17,6 +17,6 @@ declare const createDefaultLogPrefix: (name: string, level: ILevel) => string;
  * @param level Level of the entry to log.
  * @param args Arguments to log.
  */
-declare const defaultLoggingAppender: appenderFn;
+declare const defaultLoggingAppender: AppenderFn;
 export { defaultLoggingAppender, createDefaultLogPrefix };
 //# sourceMappingURL=defaultLoggingAppender.d.ts.map

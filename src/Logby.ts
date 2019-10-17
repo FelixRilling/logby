@@ -1,27 +1,27 @@
 import { name } from "lightdash";
-import { appenderFn } from "./appender/appenderFn";
-import { appenderList } from "./appender/appenderList";
+import { AppenderFn } from "./appender/AppenderFn";
+import { AppenderList } from "./appender/AppenderList";
 import { defaultLoggingAppender } from "./appender/defaultLoggingAppender";
-import { ILevel } from "./level/ILevel";
+import { Level } from "./level/Level";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
-import { ILogger } from "./logger/ILogger";
-import { loggerMap } from "./logger/loggerMap";
+import { Logger } from "./logger/Logger";
+import { LoggerMap } from "./logger/LoggerMap";
 
 /**
  * Main logby class.
  */
 class Logby {
-    public readonly appenders: appenderList;
-    public level: ILevel;
-    private readonly loggers: loggerMap;
+    public readonly appenders: AppenderList;
+    public level: Level;
+    private readonly loggers: LoggerMap;
 
     /**
      * Creates a new Logby instance.
      */
-    constructor() {
-        this.loggers = new Map<string, ILogger>();
-        this.appenders = new Set<appenderFn>([defaultLoggingAppender]);
+    public constructor() {
+        this.loggers = new Map<string, Logger>();
+        this.appenders = new Set<AppenderFn>([defaultLoggingAppender]);
         this.level = Levels.INFO;
     }
 
@@ -31,7 +31,7 @@ class Logby {
      * @param nameable String or INameable (ex: named class or named function).
      * @returns The logger instance.
      */
-    public getLogger(nameable: any): ILogger {
+    public getLogger(nameable: any): Logger {
         const loggerName = name(nameable);
 
         if (loggerName == null) {

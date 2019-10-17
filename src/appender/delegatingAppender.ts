@@ -1,8 +1,9 @@
-import { ILevel } from "../level/ILevel";
+import { Level } from "../level/Level";
 import { Logby } from "../Logby";
-import { appenderFn } from "./appenderFn";
+import { AppenderFn } from "./AppenderFn";
 
-const defaultDelegationNameProducer = (name: string) => `${name} (Delegated)`;
+const defaultDelegationNameProducer = (name: string): string =>
+    `${name} (Delegated)`;
 
 /**
  * Creates a new delegatingAppender for the given target.
@@ -16,7 +17,7 @@ const defaultDelegationNameProducer = (name: string) => `${name} (Delegated)`;
 const createDelegatingAppender = (
     target: Logby,
     nameProducer: (name: string) => string = defaultDelegationNameProducer
-): appenderFn => (name: string, level: ILevel, args: any[]) =>
+): AppenderFn => (name: string, level: Level, args: any[]) =>
     target.getLogger(nameProducer(name)).log(level, ...args);
 
 export { createDelegatingAppender };

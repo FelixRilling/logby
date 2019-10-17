@@ -1,15 +1,15 @@
-import { ILevel } from "../level/ILevel";
+import { Level } from "../level/Level";
 import { Levels } from "../level/Levels";
 import { matchesLevel } from "../level/matchesLevel";
 import { Logby } from "../Logby";
-import { ILogger } from "./ILogger";
+import { Logger } from "./Logger";
 
 /**
- * Default {@link ILogger} class.
+ * Default {@link Logger} class.
  *
  * @private
  */
-class DefaultLogger implements ILogger {
+class DefaultLogger implements Logger {
     private readonly root: Logby;
     private readonly name: string;
 
@@ -21,7 +21,7 @@ class DefaultLogger implements ILogger {
      * @param root Root logger of this logger.
      * @param name Name of the logger.
      */
-    constructor(root: Logby, name: string) {
+    public constructor(root: Logby, name: string) {
         this.root = root;
         this.name = name;
     }
@@ -33,7 +33,7 @@ class DefaultLogger implements ILogger {
      * @param level Levels of the log.
      * @param args Arguments to be logged.
      */
-    public log(level: ILevel, ...args: any[]) {
+    public log(level: Level, ...args: any[]): void {
         if (this.root.level.val >= level.val) {
             this.root.appenders.forEach(fn => fn(this.name, level, args));
         }
@@ -45,7 +45,7 @@ class DefaultLogger implements ILogger {
      * @public
      * @param args Arguments to be logged.
      */
-    public error(...args: any[]) {
+    public error(...args: any[]): void {
         this.log(Levels.ERROR, ...args);
     }
 
@@ -55,7 +55,7 @@ class DefaultLogger implements ILogger {
      * @public
      * @param args Arguments to be logged.
      */
-    public warn(...args: any[]) {
+    public warn(...args: any[]): void {
         this.log(Levels.WARN, ...args);
     }
 
@@ -65,7 +65,7 @@ class DefaultLogger implements ILogger {
      * @public
      * @param args Arguments to be logged.
      */
-    public info(...args: any[]) {
+    public info(...args: any[]): void {
         this.log(Levels.INFO, ...args);
     }
 
@@ -75,7 +75,7 @@ class DefaultLogger implements ILogger {
      * @public
      * @param args Arguments to be logged.
      */
-    public debug(...args: any[]) {
+    public debug(...args: any[]): void {
         this.log(Levels.DEBUG, ...args);
     }
 
@@ -85,7 +85,7 @@ class DefaultLogger implements ILogger {
      * @public
      * @param args Arguments to be logged.
      */
-    public trace(...args: any[]) {
+    public trace(...args: any[]): void {
         this.log(Levels.TRACE, ...args);
     }
 

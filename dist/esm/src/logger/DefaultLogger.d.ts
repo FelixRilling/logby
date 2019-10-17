@@ -1,12 +1,12 @@
-import { ILevel } from "../level/ILevel";
+import { Level } from "../level/Level";
 import { Logby } from "../Logby";
-import { ILogger } from "./ILogger";
+import { Logger } from "./Logger";
 /**
- * Default {@link ILogger} class.
+ * Default {@link Logger} class.
  *
  * @private
  */
-declare class DefaultLogger implements ILogger {
+declare class DefaultLogger implements Logger {
     private readonly root;
     private readonly name;
     /**
@@ -25,7 +25,7 @@ declare class DefaultLogger implements ILogger {
      * @param level Levels of the log.
      * @param args Arguments to be logged.
      */
-    log(level: ILevel, ...args: any[]): void;
+    log(level: Level, ...args: any[]): void;
     /**
      * Logs an error.
      *

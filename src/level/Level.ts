@@ -1,6 +1,6 @@
-interface ILevel {
+interface Level {
     val: number;
     name?: string;
 }
 
-export { ILevel };
+export { Level };

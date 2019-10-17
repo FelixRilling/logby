@@ -19,15 +19,12 @@ const createDefaultLogPrefix = (name, level) => `${new Date().toISOString()} ${l
 const defaultLoggingAppender = (name, level, args) => {
     let loggerFn = console.log;
     if (level === Levels.ERROR) {
-        // tslint:disable-next-line
         loggerFn = console.error;
     }
     else if (level === Levels.WARN) {
-        // tslint:disable-next-line
         loggerFn = console.warn;
     }
     else if (level === Levels.INFO) {
-        // tslint:disable-next-line
         loggerFn = console.info;
     }
     loggerFn(createDefaultLogPrefix(name, level), ...args);

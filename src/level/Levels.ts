@@ -1,11 +1,11 @@
-import { ILevels } from "./ILevels";
+import { LevelDictionary } from "./LevelDictionary";
 
 /**
  * Default level-list. Can be used to set the level of a {@link Logby} instance.
  *
  * @public
  */
-const Levels: ILevels = {
+const Levels: LevelDictionary = {
     NONE: {
         val: -1
     },
