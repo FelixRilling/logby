@@ -4,7 +4,7 @@
         "dictionaries": ["jsdoc"]
     },
     "source": {
-        "include": ["./README.md", "./dist/logby.esm.js"],
+        "include": ["./README.md", "./dist/logby.common.js"],
         "excludePattern": "(node_modules/|docs/)"
     },
     "plugins": ["plugins/markdown"],

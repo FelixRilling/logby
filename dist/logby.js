@@ -1,4 +1,4 @@
-var logby = (function (exports, lightdash) {
+var logby = (function (exports, lodash) {
     'use strict';
 
     /**
@@ -77,6 +77,48 @@ var logby = (function (exports, lightdash) {
      * @returns A delegating appender delegating to the given target.
      */
     const createDelegatingAppender = (target, nameProducer = defaultDelegationNameProducer) => (name, level, args) => target.getLogger(nameProducer(name)).log(level, ...args);
+
+    /**
+     * Gets name of a value.
+     *
+     * If the value has a name or description property, the value of that is returned.
+     * If the value is a string, it is returned as is.
+     * Otherwise null is returned.
+     *
+     * @since 10.2.0
+     * @memberOf Object
+     * @param value Value to check.
+     * @returns The name of the value.
+     * @example
+     * name(class Foo{})
+     * // => "Foo"
+     *
+     * name(function bar(){})
+     * // => "bar"
+     *
+     * name(Symbol("abc"))
+     * // => "abc"
+     *
+     * name("foo")
+     * // => "foo"
+     *
+     * name(1)
+     * // => null
+     */
+    const name = (value) => {
+        if (lodash.isString(value)) {
+            return value;
+        }
+        // eslint-disable-next-line no-extra-parens
+        if (lodash.isObject(value) && lodash.isString(value.name)) {
+            // eslint-disable-next-line no-extra-parens
+            return value.name;
+        }
+        if (lodash.isSymbol(value) && lodash.isString(value.description)) {
+            return value.description;
+        }
+        return null;
+    };
 
     /**
      * Checks if the given level is considered part of the active level.
@@ -229,7 +271,7 @@ var logby = (function (exports, lightdash) {
          * @returns The logger instance.
          */
         getLogger(nameable) {
-            const loggerName = lightdash.name(nameable);
+            const loggerName = name(nameable);
             if (loggerName == null) {
                 throw new TypeError(`'${nameable}' is neither an INameable nor a string.`);
             }
@@ -248,5 +290,5 @@ var logby = (function (exports, lightdash) {
 
     return exports;
 
-}({}, l_));
+}({}, _));
 //# sourceMappingURL=logby.js.map
