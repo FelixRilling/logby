@@ -22,7 +22,7 @@
             "path": "./src"
         },
         {
-            "path": "./spec"
+            "path": "./spec/src"
         }
     ]
 }
