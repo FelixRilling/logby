@@ -285,6 +285,7 @@ class Logby {
 
 exports.Levels = Levels;
 exports.Logby = Logby;
+exports.createDefaultLogPrefix = createDefaultLogPrefix;
 exports.createDelegatingAppender = createDelegatingAppender;
 exports.defaultLoggingAppender = defaultLoggingAppender;
 //# sourceMappingURL=logby.common.js.map
