@@ -1,6 +1,7 @@
-import { AppenderList } from "./appender/AppenderList";
+import { AppenderFn } from "./appender/AppenderFn";
 import { Level } from "./level/Level";
 import { Logger } from "./logger/Logger";
+declare type AppenderList = Set<AppenderFn>;
 /**
  * Main logby class.
  */

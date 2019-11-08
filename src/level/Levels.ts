@@ -1,4 +1,8 @@
-import { LevelDictionary } from "./LevelDictionary";
+import { Level } from "./Level";
+
+interface LevelDictionary {
+    [key: string]: Level;
+}
 
 /**
  * Default level-list. Can be used to set the level of a {@link Logby} instance.
