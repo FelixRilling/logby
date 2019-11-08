@@ -3,5 +3,7 @@ import { createDelegatingAppender } from "./appender/delegatingAppender";
 import { Levels } from "./level/Levels";
 import { Logby } from "./Logby";
 import { Logger } from "./logger/Logger";
-export { Levels, Logby, Logger, defaultLoggingAppender, createDelegatingAppender, createDefaultLogPrefix };
+import { AppenderFn } from "./appender/AppenderFn";
+import { Level } from "./level/Level";
+export { Levels, Logby, Logger, Level, AppenderFn, defaultLoggingAppender, createDelegatingAppender, createDefaultLogPrefix };
 //# sourceMappingURL=main.d.ts.map

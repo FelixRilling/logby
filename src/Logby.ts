@@ -1,12 +1,14 @@
 import { name } from "lightdash";
 import { AppenderFn } from "./appender/AppenderFn";
-import { AppenderList } from "./appender/AppenderList";
 import { defaultLoggingAppender } from "./appender/defaultLoggingAppender";
 import { Level } from "./level/Level";
 import { Levels } from "./level/Levels";
 import { DefaultLogger } from "./logger/DefaultLogger";
 import { Logger } from "./logger/Logger";
-import { LoggerMap } from "./logger/LoggerMap";
+
+type AppenderList = Set<AppenderFn>;
+
+type LoggerMap = Map<string, Logger>;
 
 /**
  * Main logby class.

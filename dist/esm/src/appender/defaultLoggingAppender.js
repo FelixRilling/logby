@@ -2,7 +2,7 @@ import { Levels } from "../level/Levels";
 /**
  * Helper method for creating log entry prefix.
  *
- * @private
+ * @public
  * @param name Name of the logger instance.
  * @param level Level of the entry to log.
  * @returns Log entry prefix.
